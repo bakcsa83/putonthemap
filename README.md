@@ -9,7 +9,7 @@ A web service where users can upload and geo-tag
 
 # Table of Contents
 <!--ts-->
-* [Purpose of the project](#Purpose of the project)
+* [Purpose of the project](#purpose-of-the-project)
 
 <!--te-->
 # Purpose of the project
