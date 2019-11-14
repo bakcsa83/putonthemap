@@ -21,18 +21,18 @@
         http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
    <persistence-unit name="primary">
-      <jta-data-source>java:/putitonmapDS</jta-data-source>
+      <jta-data-source>java:/PotmDS</jta-data-source>
       <properties>
          <property name="hibernate.show_sql" value="false" />
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
       </properties>
    </persistence-unit>
 
-   <persistence-unit name="spatial">
-      <jta-data-source>java:/putitonmapGisDS</jta-data-source>
-      <properties>
-         <property name="hibernate.show_sql" value="false" />
-         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
-      </properties>
-   </persistence-unit>
+<!--   <persistence-unit name="spatial">-->
+<!--      <jta-data-source>java:/putitonmapGisDS</jta-data-source>-->
+<!--      <properties>-->
+<!--         <property name="hibernate.show_sql" value="false" />-->
+<!--         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>-->
+<!--      </properties>-->
+<!--   </persistence-unit>-->
 </persistence>
