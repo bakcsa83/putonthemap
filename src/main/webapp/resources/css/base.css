@@ -1,0 +1,22 @@
+div.module{
+	background-color: #f2f6f7; 
+	margin-left: 0.5em;
+	margin-bottom: 0.5em; 
+	border-radius: 15px;
+	padding-left: 0.5em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+
+}
+
+.greenBar.ui-progressbar .ui-progressbar-value {
+   background: green;
+}
+
+.yellowBar.ui-progressbar .ui-progressbar-value {
+   background: yellow;
+}
+
+.redBar.ui-progressbar .ui-progressbar-value {
+   background: red;
+}
