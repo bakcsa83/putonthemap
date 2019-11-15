@@ -16,8 +16,8 @@
         <h:form>
             <p:commandButton id="menuButton" icon="fa fa-reorder" style="height: 2.3em" onblur="PF('userMenu').hide()"/>
             <p:menu widgetVar="userMenu" overlay="true" trigger="menuButton" my="left top" at="left bottom">
-                <p:menuitem value="Login"/>
-                <p:menuitem value="Sign up"/>
+                <p:menuitem value="#{txt.getText('login')}"/>
+                <p:menuitem value="#{txt.getText('sign_up')}"/>
             </p:menu>
         </h:form>
     </ui:define>
@@ -26,7 +26,7 @@
         <p:panelGrid styleClass="search ui-noborder" style="width: 100%">
             <p:row>
                 <p:column style="width: 100%">
-                    <p:inputText styleClass="search" placeholder="Search" style="width: 100%"/>
+                    <p:inputText styleClass="search" placeholder="#{txt.getText('search')}" style="width: 100%"/>
                 </p:column>
                 <p:column>
                     <p:button icon="fa fa-search"/>

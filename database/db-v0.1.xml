@@ -168,4 +168,30 @@
     <changeSet author="bakcsa" id="person_role_role_fkey">
         <addForeignKeyConstraint baseColumnNames="role" baseTableName="person_role" constraintName="person_role_role_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role" validate="true"/>
     </changeSet>
+
+    <changeSet author="bakcsa" id="create text">
+        <createTable tableName="text">
+            <column name="key" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="text_pkey"/>
+            </column>
+            <column name="language" type="VARCHAR(2)">
+                <constraints primaryKey="true" primaryKeyName="text_pkey"/>
+            </column>
+            <column name="text" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="add text content">
+        <validCheckSum>ANY</validCheckSum>
+        <sql>
+            INSERT INTO public.text VALUES ('search', 'en', 'Search');
+            INSERT INTO public.text VALUES ('menu', 'en', 'Menu');
+            INSERT INTO public.text VALUES ('login', 'en', 'Login');
+            INSERT INTO public.text VALUES ('sign_up', 'en', 'Sign up');
+        </sql>
+
+        <rollback/>
+    </changeSet>
 </databaseChangeLog>
