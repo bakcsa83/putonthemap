@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class LanguageService {
 
     private static final String DEFAULT_LANGUAGE = "en";
-    private static final String DEFAULT_STRING="???/???";
+    public static final String DEFAULT_STRING="???/???";
     @Inject
     Logger log;
 
@@ -37,7 +37,7 @@ public class LanguageService {
                     return ts.getTextByKey(key.getKey(), key.getLanguage()).getText();
                 } catch (Exception e) {
                     log.log(Level.WARNING, String.format("Could not fetch text. Key: %s; Language: %s", key.getKey(), key.getLanguage()),e);
-                    return null;
+                    return DEFAULT_STRING;
                 }
             }
         };
