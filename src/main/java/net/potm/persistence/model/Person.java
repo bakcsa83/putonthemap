@@ -37,14 +37,14 @@ public class Person implements java.io.Serializable {
 
     private Long id;
     private long version;
-    private Date created_on;
+    private Date createdOn;
     private String email;
     private String nickName;
     private String firstName;
     private String lastName;
     private String password;
     private String pwdSalt;
-    private Date updated_on;
+    private Date updatedOn;
     private String authCode;
     private long status;
     private long activationEmailCount;
@@ -59,30 +59,43 @@ public class Person implements java.io.Serializable {
         this.id = id;
     }
 
-    public Person(Long id, Date created, String email, String password, String pwdSalt, Date updated_on, String authCode,
+    public Person(String email, String nickName, String firstName, String lastName, String password, String pwdSalt, String authCode,
                   long status, long activationEmailCount) {
-        this.id = id;
-        this.created_on = created;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickName = nickName;
         this.email = email;
         this.password = password;
         this.pwdSalt = pwdSalt;
-        this.updated_on = updated_on;
+        this.authCode = authCode;
+        this.status = status;
+        this.activationEmailCount = activationEmailCount;
+    }
+
+    public Person(Long id, Date created, String email, String password, String pwdSalt, Date updatedOn, String authCode,
+                  long status, long activationEmailCount) {
+        this.id = id;
+        this.createdOn = created;
+        this.email = email;
+        this.password = password;
+        this.pwdSalt = pwdSalt;
+        this.updatedOn = updatedOn;
         this.authCode = authCode;
         this.status = status;
         this.activationEmailCount = activationEmailCount;
     }
 
     public Person(Long id, Date created, String email, String firstName, String lastName, String password,
-                  String pwdSalt, Date updated_on, String authCode, long status, long activationEmailCount,
+                  String pwdSalt, Date updatedOn, String authCode, long status, long activationEmailCount,
                   Set<Address> addresses, Set<Role> roles) {
         this.id = id;
-        this.created_on = created;
+        this.createdOn = created;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.pwdSalt = pwdSalt;
-        this.updated_on = updated_on;
+        this.updatedOn = updatedOn;
         this.authCode = authCode;
         this.status = status;
         this.activationEmailCount = activationEmailCount;
@@ -113,12 +126,12 @@ public class Person implements java.io.Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_on", nullable = false, length = 29)
-    public Date getCreated_on() {
-        return this.created_on;
+    public Date getCreatedOn() {
+        return this.createdOn;
     }
 
-    public void setCreated_on(Date created) {
-        this.created_on = created;
+    public void setCreatedOn(Date created) {
+        this.createdOn = created;
     }
 
     @Column(name = "email", unique = true, nullable = false, length = 50)
@@ -130,7 +143,7 @@ public class Person implements java.io.Serializable {
         this.email = email;
     }
 
-    @Column(name = "nick_name", length = 100,unique = true)
+    @Column(name = "nick_name", length = 100, unique = true)
     public String getNickName() {
         return nickName;
     }
@@ -177,12 +190,12 @@ public class Person implements java.io.Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_on", nullable = false, length = 29)
-    public Date getUpdated_on() {
-        return this.updated_on;
+    public Date getUpdatedOn() {
+        return this.updatedOn;
     }
 
-    public void setUpdated_on(Date updated) {
-        this.updated_on = updated;
+    public void setUpdatedOn(Date updated) {
+        this.updatedOn = updated;
     }
 
     @Column(name = "auth_code", nullable = false, length = 50)
@@ -233,7 +246,15 @@ public class Person implements java.io.Serializable {
         this.roles = roles;
     }
 
+    @Override
     public String toString() {
-        return String.format("%d-%s", this.id, this.email);
+        return "Person{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
