@@ -1,22 +1,52 @@
-div.module{
-	background-color: #f2f6f7; 
-	margin-left: 0.5em;
-	margin-bottom: 0.5em; 
+html,
+body {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+}
+
+.search.ui-inputfield {
+	border: 0;
+	background: none;
+	box-shadow: none;
+}
+
+.search.ui-inputfield.ui-state-focus {
+	border: 0;
+	background: none;
+	box-shadow: none;
+}
+.search.ui-panelgrid .ui-panelgrid-even{
+	border: 0;
+	background: none;
+	box-shadow: none;
+}
+div.menu {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+
+div.search {
+	position: absolute;
+	background-color: white;
+	top: 10px;
+	left: 60px;
+	width: 10em;
+
+	padding-left: 2px;
+	padding-right: 2px;
+
 	border-radius: 15px;
-	padding-left: 0.5em;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-
+	transition: width 1s ease;
 }
-
-.greenBar.ui-progressbar .ui-progressbar-value {
-   background: green;
-}
-
-.yellowBar.ui-progressbar .ui-progressbar-value {
-   background: yellow;
-}
-
-.redBar.ui-progressbar .ui-progressbar-value {
-   background: red;
+div.search:focus-within{
+	width: 30em;
+	transition: width 1s ease;
 }
