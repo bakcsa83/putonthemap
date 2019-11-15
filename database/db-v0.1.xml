@@ -21,6 +21,9 @@
             <column name="email" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="nick_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
             <column name="first_name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
@@ -51,8 +54,11 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="bakcsa (generated)" id="add person_email_unique">
+    <changeSet author="bakcsa" id="add person_email_unique">
         <addUniqueConstraint columnNames="email" constraintName="person_email_unique" tableName="person"/>
+    </changeSet>
+    <changeSet author="bakcsa" id="add person_nick_name_unique">
+        <addUniqueConstraint columnNames="nick_name" constraintName="person_nick_name_unique" tableName="person"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="create address">
@@ -92,7 +98,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet context="test, dev, prod" author="bakcsa (generated)" id="add address_person_fk">
+    <changeSet context="test, dev, prod" author="bakcsa" id="add address_person_fk">
         <addForeignKeyConstraint baseColumnNames="person" baseTableName="address" constraintName="address_person_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="person" validate="true"/>
     </changeSet>
 

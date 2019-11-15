@@ -39,6 +39,7 @@ public class Person implements java.io.Serializable {
     private long version;
     private Date created_on;
     private String email;
+    private String nickName;
     private String firstName;
     private String lastName;
     private String password;
@@ -127,6 +128,15 @@ public class Person implements java.io.Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Column(name = "nick_name", length = 100,unique = true)
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     @Column(name = "first_name", length = 100)
