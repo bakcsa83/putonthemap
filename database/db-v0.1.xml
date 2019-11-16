@@ -189,9 +189,10 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="bakcsa" id="add text content">
+    <changeSet author="bakcsa" id="add text content" runAlways="true">
         <validCheckSum>ANY</validCheckSum>
         <sql>
+            DELETE from public.text;
             INSERT INTO public.text VALUES ('search', 'en', 'Search');
             INSERT INTO public.text VALUES ('menu', 'en', 'Menu');
             INSERT INTO public.text VALUES ('login', 'en', 'Login');
@@ -202,6 +203,25 @@
             INSERT INTO public.text VALUES ('last_name', 'en', 'Last name');
             INSERT INTO public.text VALUES ('password', 'en', 'Password');
             INSERT INTO public.text VALUES ('password_again', 'en', 'Password again');
+            INSERT INTO public.text VALUES ('password_prompt', 'en', 'Please enter a password');
+            INSERT INTO public.text VALUES ('password_weak', 'en', 'Weak');
+            INSERT INTO public.text VALUES ('password_good', 'en', 'Good');
+            INSERT INTO public.text VALUES ('password_strong', 'en', 'Strong');
+            INSERT INTO public.text VALUES ('password_short', 'en', 'Minimum %d characters');
+            INSERT INTO public.text VALUES ('save', 'en', 'Save');
+            INSERT INTO public.text VALUES ('name_required', 'en', 'Name is required');
+            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed. (a-z,A-Z,0-9)');
+            INSERT INTO public.text VALUES ('nick_is_taken', 'en', 'Nick is already taken');
+            INSERT INTO public.text VALUES ('email_is_taken', 'en', 'Email address is already taken');
+            INSERT INTO public.text VALUES ('minimum_x_chars', 'en', 'Should be at least %d character(s) long.');
+            INSERT INTO public.text VALUES ('email_invalid', 'en', 'Invalid email address');
+            INSERT INTO public.text VALUES ('processing', 'en', 'Processing');
+            INSERT INTO public.text VALUES ('successful_registration', 'en', 'Successful registration');
+            INSERT INTO public.text VALUES ('login_signup', 'en', 'Login/Sign-up');
+            INSERT INTO public.text VALUES ('email_or_nick', 'en', 'Email/Nick');
+            INSERT INTO public.text VALUES ('profile', 'en', 'Profile');
+            INSERT INTO public.text VALUES ('my_content', 'en', 'My content');
+            INSERT INTO public.text VALUES ('welcome', 'en', 'Welcome');
         </sql>
 
         <rollback/>

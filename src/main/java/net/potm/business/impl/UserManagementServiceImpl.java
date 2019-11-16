@@ -23,10 +23,7 @@ import net.potm.misc.SecurityUtils;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.service.PersonService;
 
-
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.io.Serializable;
 
@@ -39,14 +36,25 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
 
     @Override
     public Person signUp(String email, String nickName, String firstName, String lastName, String password) {
-        var authCode=SecurityUtils.generateRandomString(50);
-        var salt= SecurityUtils.getSalt();
-        var pwdHash=SecurityUtils.hashPassword(password,salt);
-        var person=new Person(email,nickName,firstName,lastName, pwdHash,salt,authCode,Person.STATUS_NEW,0);
+        var authCode = SecurityUtils.generateRandomString(50);
+        var salt = SecurityUtils.getSalt();
+        var pwdHash = SecurityUtils.hashPassword(password, salt);
+        var person = new Person(email, nickName, firstName, lastName, pwdHash, salt, authCode, Person.STATUS_NEW, 0);
 
         personService.createPerson(person);
 
         return person;
+    }
+
+    @Override
+    public Person authenticate(String nickOrEmail, String password) {
+        return null;
+    }
+
+    @Override
+    public Boolean isEmailRegistered(String email) {
+        var person = personService.getPersonByEmailOrNick(email);
+        return person == null ? false : true;
     }
 
     @Override
@@ -56,12 +64,8 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
     }
 
     @Override
-    public Person changePassword(Person person, String newPassword) {
-        return null;
-    }
-
-    @Override
     public void deleteUser(Person person) {
+
         personService.deletePerson(person);
     }
 }

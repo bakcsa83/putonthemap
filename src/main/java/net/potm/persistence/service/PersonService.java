@@ -63,12 +63,12 @@ public class PersonService {
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Person getPersonByEmail(String email) {
+    public Person getPersonByEmailOrNick(String emailOrNick) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
         Root<Person> person = criteria.from(Person.class);
 
-        criteria.select(person).where(cb.equal(person.get(Person_.EMAIL), email));
+        criteria.select(person).where(cb.or(cb.equal(person.get(Person_.EMAIL), emailOrNick), cb.equal(person.get(Person_.NICK_NAME), emailOrNick)));
 
         try {
             return em.createQuery(criteria).getSingleResult();
@@ -101,7 +101,7 @@ public class PersonService {
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Person reloadPerson(Person person){
+    public Person reloadPerson(Person person) {
         return em.find(Person.class, person.getId());
     }
 
@@ -111,8 +111,8 @@ public class PersonService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Person fetchAddresses(Person person){
-        Person attached=em.find(Person.class,person.getId());
+    public Person fetchAddresses(Person person) {
+        Person attached = em.find(Person.class, person.getId());
         attached.getAddresses().size();
         return attached;
     }

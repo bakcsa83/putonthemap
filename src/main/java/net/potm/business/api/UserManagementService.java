@@ -23,8 +23,9 @@ import net.potm.persistence.model.Person;
 public interface UserManagementService {
 
     Person signUp(String email, String nickName, String firstName, String lastName, String password);
+    Person authenticate(String nickOrEmail,String password);
+    Boolean isEmailRegistered(String email);
     Person updateUser(Person person);
-    Person changePassword(Person person,String newPassword);
     void deleteUser(Person person);
 
 }

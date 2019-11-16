@@ -41,6 +41,7 @@ public abstract class Person_ {
 	public static volatile SingularAttribute<Person, Date> created_on;
 	public static volatile SingularAttribute<Person, Long> id;
 	public static volatile SingularAttribute<Person, String> email;
+	public static volatile SingularAttribute<Person, String> nickName;
 	public static volatile SingularAttribute<Person, Long> status;
 
 	public static final String PWD_SALT = "pwdSalt";
@@ -52,6 +53,7 @@ public abstract class Person_ {
 	public static final String ACTIVATION_EMAIL_COUNT = "activationEmailCount";
 	public static final String VERSION = "version";
 	public static final String FIRST_NAME = "firstName";
+	public static final String NICK_NAME = "nickName";
 	public static final String PASSWORD = "password";
 	public static final String CREATED_ON = "created_on";
 	public static final String ID = "id";
