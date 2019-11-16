@@ -196,6 +196,12 @@
             INSERT INTO public.text VALUES ('menu', 'en', 'Menu');
             INSERT INTO public.text VALUES ('login', 'en', 'Login');
             INSERT INTO public.text VALUES ('sign_up', 'en', 'Sign up');
+            INSERT INTO public.text VALUES ('nick_name', 'en', 'Nick name');
+            INSERT INTO public.text VALUES ('email', 'en', 'Email');
+            INSERT INTO public.text VALUES ('first_name', 'en', 'First name');
+            INSERT INTO public.text VALUES ('last_name', 'en', 'Last name');
+            INSERT INTO public.text VALUES ('password', 'en', 'Password');
+            INSERT INTO public.text VALUES ('password_again', 'en', 'Password again');
         </sql>
 
         <rollback/>
