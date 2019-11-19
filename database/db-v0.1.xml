@@ -1,11 +1,8 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:appdba="http://www.datical.net/xml/ns/appdba"
-                   xmlns:datical="http://www.datical.net/xml/ns/datical"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet id="empty_db" author="bakcsa">
         <tagDatabase tag="empty_db"/>
     </changeSet>
@@ -99,7 +96,9 @@
     </changeSet>
 
     <changeSet context="test, dev, prod" author="bakcsa" id="add address_person_fk">
-        <addForeignKeyConstraint baseColumnNames="person" baseTableName="address" constraintName="address_person_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="person" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="person" baseTableName="address" constraintName="address_person_fk"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="person" validate="true"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="create privilege">
@@ -150,10 +149,16 @@
     </changeSet>
 
     <changeSet author="bakcsa" id="create role_privilege_privilege_fkey">
-        <addForeignKeyConstraint baseColumnNames="privilege" baseTableName="role_privilege" constraintName="role_privilege_privilege_fkey" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="privilege" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="privilege" baseTableName="role_privilege"
+                                 constraintName="role_privilege_privilege_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="privilege" validate="true"/>
     </changeSet>
     <changeSet author="bakcsa" id="create role_privilege_role_fkey">
-        <addForeignKeyConstraint baseColumnNames="role" baseTableName="role_privilege" constraintName="role_privilege_role_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="role" baseTableName="role_privilege"
+                                 constraintName="role_privilege_role_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="role" validate="true"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="create person_role">
@@ -168,11 +173,17 @@
     </changeSet>
 
     <changeSet author="bakcsa" id="create person_role_person_fkey">
-        <addForeignKeyConstraint baseColumnNames="person" baseTableName="person_role" constraintName="person_role_person_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="person" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="person" baseTableName="person_role"
+                                 constraintName="person_role_person_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="person" validate="true"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="person_role_role_fkey">
-        <addForeignKeyConstraint baseColumnNames="role" baseTableName="person_role" constraintName="person_role_role_fkey" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="role" baseTableName="person_role"
+                                 constraintName="person_role_role_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="role" validate="true"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="create text">
@@ -210,7 +221,8 @@
             INSERT INTO public.text VALUES ('password_short', 'en', 'Minimum %d characters');
             INSERT INTO public.text VALUES ('save', 'en', 'Save');
             INSERT INTO public.text VALUES ('name_required', 'en', 'Name is required');
-            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed. (a-z,A-Z,0-9)');
+            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed.
+            (a-z,A-Z,0-9)');
             INSERT INTO public.text VALUES ('nick_is_taken', 'en', 'Nick is already taken');
             INSERT INTO public.text VALUES ('email_is_taken', 'en', 'Email address is already taken');
             INSERT INTO public.text VALUES ('minimum_x_chars', 'en', 'Should be at least %d character(s) long.');
@@ -225,5 +237,23 @@
         </sql>
 
         <rollback/>
+    </changeSet>
+
+    <changeSet id="create app_property" author="bakcsa">
+        <createTable tableName="app_property">
+            <column name="key" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="app_property_pk"/>
+            </column>
+            <column name="profile" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="app_property_pk"/>
+            </column>
+            <column name="value" type="VARCHAR(2000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="load app properties" author="bakcsa">
+        INSERT INTO public.cloud_properties( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
     </changeSet>
 </databaseChangeLog>
