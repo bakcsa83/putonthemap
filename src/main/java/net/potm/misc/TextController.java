@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class TextController {
 
 	@Inject
-	LanguageService ls;
+	TextManager ls;
 	
 	@Inject
 	HelperController helper;

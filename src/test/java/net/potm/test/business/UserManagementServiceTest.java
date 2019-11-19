@@ -19,8 +19,7 @@
 package net.potm.test.business;
 
 import net.potm.business.api.UserManagementService;
-import net.potm.misc.SecurityUtils;
-import net.potm.persistence.service.PersonService;
+import net.potm.security.SecurityUtils;
 import net.potm.test.util.TestUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;

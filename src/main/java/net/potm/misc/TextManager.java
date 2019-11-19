@@ -3,7 +3,6 @@ package net.potm.misc;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import net.potm.persistence.service.TextService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
 
 
 @ApplicationScoped
-public class LanguageService {
+public class TextManager {
 
     private static final String DEFAULT_LANGUAGE = "en";
     public static final String DEFAULT_STRING="???/???";
@@ -23,7 +22,7 @@ public class LanguageService {
     Logger log;
 
     @Inject
-    TextService ts;
+    net.potm.persistence.service.TextService ts;
 
     private LoadingCache<CacheKey, String> cache;
 
