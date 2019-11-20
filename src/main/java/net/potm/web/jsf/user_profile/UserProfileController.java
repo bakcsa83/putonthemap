@@ -19,9 +19,12 @@
 package net.potm.web.jsf.user_profile;
 
 import net.potm.business.api.UserManagementService;
+import net.potm.misc.EmailService;
 import net.potm.misc.TextController;
 import net.potm.persistence.model.Person;
+import net.potm.web.jsf.helper.HTTPUtil;
 import net.potm.web.jsf.user_session.UserSessionController;
+import org.primefaces.PrimeFaces;
 
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
@@ -29,6 +32,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.util.logging.Logger;
 
 @Model
@@ -37,18 +41,28 @@ public class UserProfileController {
     private static final int NICK_MIN_LEN = 4;
     @Inject
     TextController textCtrl;
+
     @Inject
     UserSessionController usc;
+
     @Inject
     UserManagementService userManagementService;
+
+    @Inject
+    EmailService emailService;
+
     @Inject
     Logger log;
+
+
+
     private String nickName;
     private String email;
     private String firstName;
     private String lastName;
     private String password;
     private String password2;
+    private boolean showRegOkMsg;
 
     // Validators
     public void isNameValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
@@ -85,7 +99,7 @@ public class UserProfileController {
 
         if (val.length() < NICK_MIN_LEN) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    String.format(textCtrl.getText("minimum_x_chars"),NICK_MIN_LEN), String.format(textCtrl.getText("minimum_x_chars"),NICK_MIN_LEN)));
+                    String.format(textCtrl.getText("minimum_x_chars"), NICK_MIN_LEN), String.format(textCtrl.getText("minimum_x_chars"), NICK_MIN_LEN)));
         }
 
         if (!val.matches("[A-Za-z0-9]+")) {
@@ -130,22 +144,27 @@ public class UserProfileController {
     public String saveUser() {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        if(usc.getAuthenticated()){ //Update
+        if (usc.getAuthenticated()) { //Update
 
-        }
-        else{   //New user
-            try{
-                var person=userManagementService.signUp(email, nickName, firstName, lastName, password);
-                context.addMessage(null, new FacesMessage(textCtrl.getText("successful_registration")) );
-                usc.setUser(person);
-                usc.setAuthenticated(true);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            //TODO: to be implemented
+            PrimeFaces current = PrimeFaces.current();
+            current.executeScript("PF('signUpDialog').hide();");
 
-
+        } else {   //New user
+            var person = userManagementService.signUp(email, nickName, firstName, lastName, password);
+            sendActivationEmail(person);
+            showRegOkMsg =true;
+            context.addMessage(null, new FacesMessage(textCtrl.getText("successful_registration")));
         }
         return "";
+    }
+
+    private void sendActivationEmail(Person user) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+                .getRequest();
+        emailService.send(user.getEmail(), textCtrl.getText("account_activation_email_subject"), String.format(
+                textCtrl.getText("account_activation_email"), user.getNickName(),
+                HTTPUtil.getBaseUrl(req) + "/activation.jsf?email=" + user.getEmail() + "&code=" + user.getAuthCode()));
     }
 
 
@@ -197,5 +216,13 @@ public class UserProfileController {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
+    }
+
+    public boolean getShowRegOkMsg() {
+        return showRegOkMsg;
+    }
+
+    public void setShowRegOkMsg(boolean showRegOkMsg) {
+        this.showRegOkMsg = showRegOkMsg;
     }
 }

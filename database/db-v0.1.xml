@@ -221,8 +221,7 @@
             INSERT INTO public.text VALUES ('password_short', 'en', 'Minimum %d characters');
             INSERT INTO public.text VALUES ('save', 'en', 'Save');
             INSERT INTO public.text VALUES ('name_required', 'en', 'Name is required');
-            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed.
-            (a-z,A-Z,0-9)');
+            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed. (a-z,A-Z,0-9)');
             INSERT INTO public.text VALUES ('nick_is_taken', 'en', 'Nick is already taken');
             INSERT INTO public.text VALUES ('email_is_taken', 'en', 'Email address is already taken');
             INSERT INTO public.text VALUES ('minimum_x_chars', 'en', 'Should be at least %d character(s) long.');
@@ -234,6 +233,24 @@
             INSERT INTO public.text VALUES ('profile', 'en', 'Profile');
             INSERT INTO public.text VALUES ('my_content', 'en', 'My content');
             INSERT INTO public.text VALUES ('welcome', 'en', 'Welcome');
+            INSERT INTO public.text VALUES ('account_activation_email', 'en', 'Dear %s
+
+            Welcome to www.putonthemap.net!
+            Click the following link to confirm your e-mail address and activate your account:
+            %s
+
+            Best Regards,
+            www.putonthemap.net');
+
+            INSERT INTO public.text VALUES ('registration_ok_msg', 'en', '
+Please Activate Your Account.
+Before you can login, you must active your account
+with the code sent to your email address.
+If you did not receive this email, please check
+your junk/spam folder.');
+
+            INSERT INTO public.text VALUES ('account_activated', 'en', 'Account has been activated, now you can log in.');
+            INSERT INTO public.text VALUES ('account_activation_email_subject', 'en', 'Registration');
         </sql>
 
         <rollback/>
@@ -254,6 +271,8 @@
     </changeSet>
 
     <changeSet id="load app properties" author="bakcsa">
-        INSERT INTO public.cloud_properties( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
+        <sql>
+        INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
+        </sql>
     </changeSet>
 </databaseChangeLog>

@@ -22,7 +22,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://xmlns.jcp.org/jsf/composite" xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite">
 
 <composite:interface/>
 
@@ -34,7 +34,7 @@
 
         <h:form>
             <p:growl id="userProfileGrowl"/>
-            <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank">
+            <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank" rendered="#{!userProfileController.showRegOkMsg}">
                 <p:row>
                     <p:column>
                         <p:outputLabel for="nickNameInput" value="#{txt.getText('nick_name')}:"/>
@@ -55,27 +55,6 @@
                 <p:row>
                     <p:column colspan="2">
                         <p:message id="nickNameInputMsg" for="nickNameInput" styleClass="flat" display="text"/>
-                    </p:column>
-                </p:row>
-
-                <p:row>
-                    <p:column>
-                        <p:outputLabel for="emailInput" value="#{txt.getText('email')}:"/>
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="emailInput"
-                                     value="#{userProfileController.email}"
-                                     validator="#{userProfileController.isEmailValid}"
-                                     required="true"
-                                     styleClass="flat">
-                            <p:ajax event="blur" process="emailInput"
-                                    update="emailInput emailInputMsg"/>
-                        </p:inputText>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="2">
-                        <p:message id="emailInputMsg" styleClass="flat" display="text" for="emailInput"/>
                     </p:column>
                 </p:row>
 
@@ -120,6 +99,27 @@
                     </p:column>
                 </p:row>
 
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="emailInput" value="#{txt.getText('email')}:"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="emailInput"
+                                     value="#{userProfileController.email}"
+                                     validator="#{userProfileController.isEmailValid}"
+                                     required="true"
+                                     styleClass="flat">
+                            <p:ajax event="blur" process="emailInput"
+                                    update="emailInput emailInputMsg"/>
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:message id="emailInputMsg" styleClass="flat" display="text" for="emailInput"/>
+                    </p:column>
+                </p:row>
+
                 <h:panelGroup rendered="#{!userSessionController.authenticated}">
                     <p:row>
                         <p:column>
@@ -160,12 +160,17 @@
                                     id="saveUserProfileButton"
                                     value="#{userSessionController.authenticated ? txt.getText('save') : txt.getText('sign_up')}"
                                     action="#{userProfileController.saveUser}"
-                                    oncomplete="if (!args.validationFailed){PF('signUpDialog').hide()}"
                                     process="@form" update="@form mainForm"/>
                         </p:column>
                     </p:row>
                 </h:panelGroup>
             </p:panelGrid>
+            <p:outputPanel rendered="#{userProfileController.showRegOkMsg}">
+                <pre>
+                    <h:outputText value="#{txt.getText('registration_ok_msg')}" ></h:outputText>
+                </pre>
+            </p:outputPanel>
+
 
             <p:blockUI block="userProfilePanel" trigger="saveUserProfileButton">
                 <h:outputLabel value="#{txt.getText('processing')}"/>

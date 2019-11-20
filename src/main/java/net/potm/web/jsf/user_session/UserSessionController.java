@@ -21,8 +21,6 @@ package net.potm.web.jsf.user_session;
 import net.potm.persistence.model.Person;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.BeforeDestroyed;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -35,6 +33,9 @@ public class UserSessionController implements Serializable {
 
     private Boolean authenticated = false;
     private Person user;
+
+    private String username;
+    private String password;
 
 
     @PostConstruct
