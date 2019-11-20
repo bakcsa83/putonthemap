@@ -47,6 +47,34 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
     }
 
     @Override
+    public Person activateUser(String email, String activationCode) {
+        var person = personService.getPersonByEmailOrNick(email);
+
+        if (person == null) {
+            throw new UserManagementServiceException("User activation failed. Email address not found.");
+        }
+
+        if(person.getStatus()==Person.STATUS_ACTIVE){
+            throw new UserManagementServiceException("User activation failed. Person already active.");
+        }
+
+        if(person.getStatus()==Person.STATUS_DISABLED){
+            throw new UserManagementServiceException("User activation failed. Person is disabled.");
+        }
+
+        if (!person.getAuthCode().equals(activationCode)) {
+            throw new UserManagementServiceException("User activation failed. Auth code does not match.");
+        }
+
+        person.setStatus(Person.STATUS_ACTIVE);
+        try {
+            return personService.updatePerson(person);
+        } catch (Exception e) {
+            throw new UserManagementServiceException("User activation failed.",e);
+        }
+    }
+
+    @Override
     public Person authenticate(String nickOrEmail, String password) {
         return null;
     }
@@ -67,5 +95,16 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
     public void deleteUser(Person person) {
 
         personService.deletePerson(person);
+    }
+
+    public class UserManagementServiceException extends RuntimeException{
+
+        public UserManagementServiceException(String msg){
+            super(msg);
+        }
+
+        public UserManagementServiceException(String msg,Exception e){
+            super(msg,e);
+        }
     }
 }
