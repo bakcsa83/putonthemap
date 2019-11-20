@@ -14,12 +14,16 @@
     </ui:define>
 
     <ui:define name="menu">
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-12 ui-xl-10 ui-md-8 ui-sm-12">
-                <p:inputText styleClass="flat" placeholder="#{txt.getText('search')}"/>
-            </div>
-            <div class="ui-g-12 ui-xl-2 ui-md-4 ui-sm-12 ">
-                <p:button icon="fa fa-search"/>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-g-nopad">
+                <h:form styleClass="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-xl-10 ui-md-8 ui-sm-12">
+                        <p:inputText styleClass="flat" placeholder="#{txt.getText('search')}"/>
+                    </div>
+                    <div class="ui-g-12 ui-xl-2 ui-md-4 ui-sm-12 ">
+                        <p:button icon="fa fa-search"/>
+                    </div>
+                </h:form>
             </div>
             <div class="ui-g-12 ui-g-nopad">
 
