@@ -20,17 +20,25 @@ package net.potm.misc;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
-public class EmailService {
+public class EmailService implements Serializable {
+    private static final String SENDER_EMAIL="noreply@putonthemap.net";
 
-    @Resource(name = "java:/jboss/yacloma-mail")
+    @Inject
+    Logger log;
+
+    @Resource(name = "java:/putonthemap-mail")
     private Session session;
 
     public void send(String addresses, String topic, String textMessage) {
@@ -56,13 +64,12 @@ public class EmailService {
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(addresses));
                 message.setSubject(subject);
                 message.setText(msg);
-                message.setFrom(new InternetAddress("yacloma@bakcsa.hu"));
+                message.setFrom(new InternetAddress(SENDER_EMAIL));
 
                 Transport.send(message);
             } catch (MessagingException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE, "Email could not be sent", e);
             }
         }
-
     }
 }
