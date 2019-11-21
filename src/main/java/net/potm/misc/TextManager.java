@@ -7,6 +7,7 @@ import com.google.common.cache.LoadingCache;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -83,5 +84,19 @@ public class TextManager {
         public String toString(){
         	return String.format("Key: %s Language: %s",key,language);
 		}
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CacheKey cacheKey = (CacheKey) o;
+            return key.equals(cacheKey.key) &&
+                    language.equals(cacheKey.language);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, language);
+        }
     }
 }

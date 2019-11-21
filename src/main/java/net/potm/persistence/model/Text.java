@@ -19,6 +19,7 @@
 package net.potm.persistence.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "text", schema = "public")
@@ -57,4 +58,17 @@ public class Text implements java.io.Serializable {
         this.text = text;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Text text1 = (Text) o;
+        return id.equals(text1.id) &&
+                text.equals(text1.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text);
+    }
 }
