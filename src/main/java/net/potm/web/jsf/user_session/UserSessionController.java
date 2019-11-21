@@ -28,6 +28,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -50,8 +52,11 @@ public class UserSessionController implements Serializable {
 
 
     @PostConstruct
-    public void init(){
+    public void init() throws IOException {
+
         log.info("UserSessionController has been initialized. "+this.hashCode());
+        var file=new File("mytestfile.cucc");
+        file.createNewFile();
     }
 
     public Boolean getAuthenticated() {
@@ -82,6 +87,11 @@ public class UserSessionController implements Serializable {
         }
 
         return "";
+    }
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public void setUser(Person user) {

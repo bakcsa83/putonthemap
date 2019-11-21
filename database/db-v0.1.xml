@@ -254,6 +254,17 @@ your junk/spam folder.');
             INSERT INTO public.text VALUES ('wrong_username_or_pwd', 'en', 'Wrong username or password');
             INSERT INTO public.text VALUES ('login_failed', 'en', 'Login failed');
             INSERT INTO public.text VALUES ('login_ok', 'en', 'Login OK');
+            INSERT INTO public.text VALUES ('welcome_content', 'en', '
+Welcome to www.putonthemap.net!
+
+-upload your photos and tracks
+-share them with friends
+-make them public so that 
+ others can enjoy them, too');
+			INSERT INTO public.text VALUES ('edit_profile', 'en', 'Edit profile');
+			INSERT INTO public.text VALUES ('profile_updated', 'en', 'Profile updated');
+			INSERT INTO public.text VALUES ('update_profile', 'en', 'Update profile');
+			INSERT INTO public.text VALUES ('log_out', 'en', 'Log out');
         </sql>
 
         <rollback/>

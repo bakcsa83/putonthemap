@@ -26,6 +26,7 @@ public interface UserManagementService {
     Person activateUser(String email,String activationCode);
     Person authenticate(String nickOrEmail,String password);
     Boolean isEmailRegistered(String email);
+    Boolean isNickRegistered(String nick);
     Person updateUser(Person person);
 
     void deleteUser(Person person);

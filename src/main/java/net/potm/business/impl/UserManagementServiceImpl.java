@@ -84,14 +84,19 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
 
     @Override
     public Boolean isEmailRegistered(String email) {
-        var person = personService.getPersonByEmailOrNick(email);
+        var person = personService.getPersonByEmail(email);
+        return person == null ? false : true;
+    }
+
+    @Override
+    public Boolean isNickRegistered(String nick) {
+        var person = personService.getPersonByNick(nick);
         return person == null ? false : true;
     }
 
     @Override
     public Person updateUser(Person person) {
-
-        return null;
+        return personService.updatePerson(person);
     }
 
     @Override

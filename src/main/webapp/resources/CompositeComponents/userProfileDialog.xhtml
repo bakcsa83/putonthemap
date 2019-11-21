@@ -28,11 +28,13 @@
 
 
 <composite:implementation>
-    <p:dialog id="signUpDialog" widgetVar="signUpDialog" dynamic="true" header="#{txt.getText('sign_up')}"
+
+    <p:dialog id="userProfileDialog" widgetVar="userProfileDialog" dynamic="true"
+              header="#{userSessionController.authenticated ? txt.getText('update_profile') : txt.getText('sign_up')}"
               resizable="false" width="480">
 
 
-        <h:form>
+
             <p:growl id="userProfileGrowl"/>
             <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank" rendered="#{!userProfileController.showRegOkMsg}">
                 <p:row>
@@ -154,20 +156,20 @@
                             <p:message for="password2Input" display="text" styleClass="flat"/>
                         </p:column>
                     </p:row>
-                    <p:row>
-                        <p:column>
-                            <p:commandButton
-                                    id="saveUserProfileButton"
-                                    value="#{userSessionController.authenticated ? txt.getText('save') : txt.getText('sign_up')}"
-                                    action="#{userProfileController.saveUser}"
-                                    process="@form" update="@form mainForm"/>
-                        </p:column>
-                    </p:row>
                 </h:panelGroup>
+                <p:row>
+                    <p:column>
+                        <p:commandButton
+                                id="saveUserProfileButton"
+                                value="#{userSessionController.authenticated ? txt.getText('save') : txt.getText('sign_up')}"
+                                action="#{userProfileController.saveUser}"
+                                process="@form" update="@form mainForm"/>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
             <p:outputPanel rendered="#{userProfileController.showRegOkMsg}">
                 <pre>
-                    <h:outputText value="#{txt.getText('registration_ok_msg')}" ></h:outputText>
+                    <h:outputText value="#{userSessionController.authenticated ? txt.getText('profile_updated') : txt.getText('registration_ok_msg')}"/>
                 </pre>
             </p:outputPanel>
 
@@ -178,7 +180,7 @@
                 <p:progressBar id="progressBarIndeterminate" style="height:6px"
                                mode="indeterminate"/>
             </p:blockUI>
-        </h:form>
+
     </p:dialog>
 </composite:implementation>
 

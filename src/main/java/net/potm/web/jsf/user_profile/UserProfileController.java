@@ -24,8 +24,8 @@ import net.potm.misc.TextController;
 import net.potm.persistence.model.Person;
 import net.potm.web.jsf.helper.HTTPUtil;
 import net.potm.web.jsf.user_session.UserSessionController;
-import org.primefaces.PrimeFaces;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -63,6 +63,16 @@ public class UserProfileController {
     private String password;
     private String password2;
     private boolean showRegOkMsg;
+
+    @PostConstruct
+    public void init(){
+        if(usc.getAuthenticated()){
+            nickName=usc.getUser().getNickName();
+            email=usc.getUser().getEmail();
+            firstName=usc.getUser().getFirstName();
+            lastName=usc.getUser().getLastName();
+        }
+    }
 
     // Validators
     public void isNameValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
@@ -107,23 +117,20 @@ public class UserProfileController {
                     textCtrl.getText("invalid_characters"), textCtrl.getText("invalid_characters")));
         }
 
-        if (!isEmailOrNickUnique(val)) {
+        if (!isNickUnique(val)) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     textCtrl.getText("nick_is_taken"), textCtrl.getText("nick_is_taken")));
         }
     }
 
-    private boolean isEmailOrNickUnique(String nickOrEmail) {
-        if (usc.getAuthenticated()) {
-            if (!usc.getUser().getEmail().equals(nickOrEmail) && userManagementService.isEmailRegistered(nickOrEmail)) {
-                return false;
-            }
-        } else {
-            if (userManagementService.isEmailRegistered(nickOrEmail)) {
-                return false;
-            }
-        }
-        return true;
+    private boolean isNickUnique(String nick) {
+        if(usc.getAuthenticated()&&usc.getUser().getNickName().equals(nick)) return true;
+        return !userManagementService.isNickRegistered(nick);
+    }
+
+    private boolean isEmailUnique(String email) {
+        if(usc.getAuthenticated()&&usc.getUser().getEmail().equals(email)) return true;
+        return !userManagementService.isEmailRegistered(email);
     }
 
     public void isEmailValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
@@ -134,7 +141,7 @@ public class UserProfileController {
                     textCtrl.getText("email_invalid"), textCtrl.getText("email_invalid")));
         }
 
-        if (!isEmailOrNickUnique(val)) {
+        if (!isEmailUnique(val)) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     textCtrl.getText("email_is_taken"), textCtrl.getText("email_is_taken")));
         }
@@ -146,10 +153,13 @@ public class UserProfileController {
 
         if (usc.getAuthenticated()) { //Update
 
-            //TODO: to be implemented
-            PrimeFaces current = PrimeFaces.current();
-            current.executeScript("PF('signUpDialog').hide();");
-
+            var person=usc.getUser();
+            person.setFirstName(firstName);
+            person.setLastName(lastName);
+            person.setEmail(email);
+            person.setNickName(nickName);
+            person=userManagementService.updateUser(person);
+            usc.setUser(person);
         } else {   //New user
             var person = userManagementService.signUp(email, nickName, firstName, lastName, password);
             sendActivationEmail(person);

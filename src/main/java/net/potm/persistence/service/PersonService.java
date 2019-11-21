@@ -78,6 +78,34 @@ public class PersonService {
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public Person getPersonByEmail(String email) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
+        Root<Person> person = criteria.from(Person.class);
+
+        criteria.select(person).where(cb.equal(person.get(Person_.EMAIL), email));
+        try {
+            return em.createQuery(criteria).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public Person getPersonByNick(String nick) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
+        Root<Person> person = criteria.from(Person.class);
+
+        criteria.select(person).where(cb.equal(person.get(Person_.NICK_NAME), nick));
+        try {
+            return em.createQuery(criteria).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Long getAllPersonCount(Person currentUser) {
         throw new UnsupportedOperationException("Method is not implemented");
     }
