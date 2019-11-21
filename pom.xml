@@ -159,6 +159,12 @@
 			<version>28.1-jre</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.jinahya</groupId>
+			<artifactId>jinahya-imgscalr-lib</artifactId>
+			<version>0.1</version>
+		</dependency>
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.testng</groupId>
