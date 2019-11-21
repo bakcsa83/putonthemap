@@ -251,6 +251,9 @@ your junk/spam folder.');
 
             INSERT INTO public.text VALUES ('account_activated', 'en', 'Account has been activated, now you can log in.');
             INSERT INTO public.text VALUES ('account_activation_email_subject', 'en', 'Registration');
+            INSERT INTO public.text VALUES ('wrong_username_or_pwd', 'en', 'Wrong username or password');
+            INSERT INTO public.text VALUES ('login_failed', 'en', 'Login failed');
+            INSERT INTO public.text VALUES ('login_ok', 'en', 'Login OK');
         </sql>
 
         <rollback/>

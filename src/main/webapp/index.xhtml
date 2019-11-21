@@ -29,7 +29,8 @@
             <div class="ui-g-12 ui-g-nopad">
 
                 <h:form id="mainForm">
-                    <p:tabView style="min-height: 200px" dynamic="true">
+                    <p:growl id="mainGrowl" showDetail="true"/>
+                    <p:tabView id="mainMenuTabView" style="min-height: 200px" dynamic="true">
                         <p:tab title="#{txt.getText('welcome')}">
 
                         </p:tab>
@@ -39,14 +40,16 @@
                         <p:tab title="#{userSessionController.authenticated ? txt.getText('profile') : txt.getText('login_signup')}">
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" style="width: 100%"
                                          rendered="#{!userSessionController.authenticated}">
-                                <p:outputLabel value="E-mail/Nick:"/>
-                                <p:inputText/>
+                                <p:outputLabel value="#{txt.getText('email_or_nick')}:" for="usernameInput"/>
+                                <p:inputText id="usernameInput" value="#{userSessionController.username}"/>
 
-                                <p:outputLabel value="Password:"/>
-                                <p:password/>
+                                <p:outputLabel for="passwordInput" value="#{txt.getText('password')}:"/>
+                                <p:password id="passwordInput" value="#{userSessionController.password}"/>
 
                                 <p:commandLink value="#{txt.getText('sign_up')}" onclick="PF('signUpDialog').show()"/>
-                                <p:commandButton value="#{txt.getText('login')}"/>
+                                <p:commandButton value="#{txt.getText('login')}"
+                                                 action="#{userSessionController.login}"
+                                                 update="mainMenuTabView mainForm:mainGrowl"/>
                             </p:panelGrid>
                         </p:tab>
                     </p:tabView>

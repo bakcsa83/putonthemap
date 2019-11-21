@@ -18,10 +18,15 @@
 
 package net.potm.web.jsf.user_session;
 
+import net.potm.business.api.UserManagementService;
+import net.potm.misc.TextController;
 import net.potm.persistence.model.Person;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -36,6 +41,12 @@ public class UserSessionController implements Serializable {
 
     private String username;
     private String password;
+
+    @Inject
+    TextController textController;
+
+    @Inject
+    UserManagementService userManagementService;
 
 
     @PostConstruct
@@ -55,7 +66,41 @@ public class UserSessionController implements Serializable {
         return user;
     }
 
+    public String login(){
+        user=userManagementService.authenticate(username, password);
+        var context = FacesContext.getCurrentInstance();
+        if(user==null){
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, textController.getText("login_failed"),
+                        textController.getText("wrong_username_or_pwd")));
+        }
+        else{
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,textController.getText("login_ok"),
+                            textController.getText("welcome")+" "+user.getNickName()));
+            authenticated=true;
+        }
+
+        return "";
+    }
+
     public void setUser(Person user) {
         this.user = user;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

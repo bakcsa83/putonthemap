@@ -54,11 +54,11 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
             throw new UserManagementServiceException("User activation failed. Email address not found.");
         }
 
-        if(person.getStatus()==Person.STATUS_ACTIVE){
+        if (person.getStatus() == Person.STATUS_ACTIVE) {
             throw new UserManagementServiceException("User activation failed. Person already active.");
         }
 
-        if(person.getStatus()==Person.STATUS_DISABLED){
+        if (person.getStatus() == Person.STATUS_DISABLED) {
             throw new UserManagementServiceException("User activation failed. Person is disabled.");
         }
 
@@ -70,13 +70,16 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
         try {
             return personService.updatePerson(person);
         } catch (Exception e) {
-            throw new UserManagementServiceException("User activation failed.",e);
+            throw new UserManagementServiceException("User activation failed.", e);
         }
     }
 
     @Override
     public Person authenticate(String nickOrEmail, String password) {
-        return null;
+        var person = personService.getPersonByEmailOrNick(nickOrEmail);
+        if (person == null) return null;
+        var pwdHash = SecurityUtils.hashPassword(password, person.getPwdSalt());
+        return pwdHash.equals(person.getPassword()) ? person : null;
     }
 
     @Override
@@ -97,14 +100,14 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
         personService.deletePerson(person);
     }
 
-    public class UserManagementServiceException extends RuntimeException{
+    public class UserManagementServiceException extends RuntimeException {
 
-        public UserManagementServiceException(String msg){
+        public UserManagementServiceException(String msg) {
             super(msg);
         }
 
-        public UserManagementServiceException(String msg,Exception e){
-            super(msg,e);
+        public UserManagementServiceException(String msg, Exception e) {
+            super(msg, e);
         }
     }
 }
