@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-liquibase --driver=org.postgresql.Driver --classpath=postgresql.jar --url="jdbc:postgresql://192.168.56.210:5432/potm-dev" --changeLogFile=db-v0.1.xml --username=potm_dev --password=$1 update
+liquibase --driver=org.postgresql.Driver --classpath=postgresql.jar --url="jdbc:postgresql://192.168.56.130:5432/potm-dev" --changeLogFile=db-v0.1.xml --username=potm_dev --password=$1 update
