@@ -289,4 +289,114 @@ Welcome to www.putonthemap.net!
         INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
         </sql>
     </changeSet>
+
+    <changeSet id="create share_type" author="bakcsa">
+        <createTable tableName="share_type">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="share_type_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="load share types" author="bakcsa">
+        <sql>
+            INSERT INTO public.share_type (id, name) VALUES (0,'PRIVATE');
+            INSERT INTO public.share_type (id, name) VALUES (1,'FRIENDS');
+            INSERT INTO public.share_type (id, name) VALUES (2,'PUBLIC');
+        </sql>
+    </changeSet>
+
+    <changeSet id="create content_tag" author="bakcsa">
+        <createTable tableName="content_tag">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="content_tag_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create content_base" author="bakcsa">
+        <createTable tableName="content_base">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="content_base_pkey"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="share_type" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="point" type="geometry(Point, 4326)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="create content_base_owner_fkey">
+        <addForeignKeyConstraint baseColumnNames="owner" baseTableName="content_base"
+                                 constraintName="content_base_owner_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="person" validate="true"/>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="create content_base_share_type_fkey">
+        <addForeignKeyConstraint baseColumnNames="share_type" baseTableName="content_base"
+                                 constraintName="content_base_share_type_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="share_type" validate="true"/>
+    </changeSet>
+
+    <changeSet id="create content_base_content_tag" author="bakcsa">
+        <createTable tableName="content_base_content_tag">
+            <column name="content_base" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="content_base_content_tag_pkey"/>
+            </column>
+            <column name="content_tag" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="content_base_content_tag_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="create content_base_content_tag_content_base_fkey">
+        <addForeignKeyConstraint baseColumnNames="content_base" baseTableName="content_base_content_tag"
+                                 constraintName="content_base_content_tag_content_base_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="content_base" validate="true"/>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="create content_base_content_tag_content_tag_fkey">
+        <addForeignKeyConstraint baseColumnNames="content_tag" baseTableName="content_base_content_tag"
+                                 constraintName="content_base_content_tag_content_tag_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="content_tag" validate="true"/>
+    </changeSet>
+
+    <changeSet id="create photo_content" author="bakcsa">
+        <createTable tableName="photo_content">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="photo_content_pkey"/>
+            </column>
+            <column name="dir" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bakcsa" id="create photo_content_id_fkey">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="photo_content"
+                                 constraintName="photo_content_id_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="content_base" validate="true"/>
+    </changeSet>
 </databaseChangeLog>
