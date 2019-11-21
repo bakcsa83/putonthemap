@@ -165,6 +165,12 @@
 			<version>0.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>3.4</version>
+		</dependency>
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.testng</groupId>
