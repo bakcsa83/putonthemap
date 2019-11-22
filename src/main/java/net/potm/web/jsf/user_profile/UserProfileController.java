@@ -62,7 +62,7 @@ public class UserProfileController {
     private String lastName;
     private String password;
     private String password2;
-    private boolean showRegOkMsg;
+    private boolean showFeedbackMsg;
 
     @PostConstruct
     public void init(){
@@ -159,11 +159,12 @@ public class UserProfileController {
             person.setEmail(email);
             person.setNickName(nickName);
             person=userManagementService.updateUser(person);
+            showFeedbackMsg =true;
             usc.setUser(person);
         } else {   //New user
             var person = userManagementService.signUp(email, nickName, firstName, lastName, password);
             sendActivationEmail(person);
-            showRegOkMsg =true;
+            showFeedbackMsg =true;
             context.addMessage(null, new FacesMessage(textCtrl.getText("successful_registration")));
         }
         return "";
@@ -228,11 +229,11 @@ public class UserProfileController {
         this.password2 = password2;
     }
 
-    public boolean getShowRegOkMsg() {
-        return showRegOkMsg;
+    public boolean getShowFeedbackMsg() {
+        return showFeedbackMsg;
     }
 
-    public void setShowRegOkMsg(boolean showRegOkMsg) {
-        this.showRegOkMsg = showRegOkMsg;
+    public void setShowFeedbackMsg(boolean showFeedbackMsg) {
+        this.showFeedbackMsg = showFeedbackMsg;
     }
 }

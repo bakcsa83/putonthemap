@@ -36,7 +36,8 @@
 
 
             <p:growl id="userProfileGrowl"/>
-            <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank" rendered="#{!userProfileController.showRegOkMsg}">
+        <p:outputPanel id="dataPanel">
+            <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank" rendered="#{!userProfileController.showFeedbackMsg}">
                 <p:row>
                     <p:column>
                         <p:outputLabel for="nickNameInput" value="#{txt.getText('nick_name')}:"/>
@@ -163,11 +164,12 @@
                                 id="saveUserProfileButton"
                                 value="#{userSessionController.authenticated ? txt.getText('save') : txt.getText('sign_up')}"
                                 action="#{userProfileController.saveUser}"
-                                process="@form" update="@form mainForm"/>
+                                update="dataPanel
+                                mainForm"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:outputPanel rendered="#{userProfileController.showRegOkMsg}">
+            <p:outputPanel id="feedbackPanel" rendered="#{userProfileController.showFeedbackMsg}">
                 <pre>
                     <h:outputText value="#{userSessionController.authenticated ? txt.getText('profile_updated') : txt.getText('registration_ok_msg')}"/>
                 </pre>
@@ -180,7 +182,7 @@
                 <p:progressBar id="progressBarIndeterminate" style="height:6px"
                                mode="indeterminate"/>
             </p:blockUI>
-
+        </p:outputPanel>
     </p:dialog>
 </composite:implementation>
 
