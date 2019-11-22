@@ -18,30 +18,78 @@
 
 package net.potm.misc;
 
-import javax.annotation.Resource;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
 public class EmailService implements Serializable {
-    private static final String SENDER_EMAIL="noreply@putonthemap.net";
+    private static final long serialVersionUID = -2630183875163233638L;
+
 
     @Inject
     Logger log;
 
-    @Resource(name = "java:/putonthemap-mail")
-    private Session session;
+    private Session mailSession;
+    private String senderAddress;
+    private String senderName;
+
+    @PostConstruct
+    public void init() {
+        prepareSession();
+    }
+
+    private void prepareSession() {
+        Properties prop = new Properties();
+        String propFileName = "email.properties";
+        InputStream inputStream;
+
+        inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+        if (inputStream == null) {
+            mailSession = null;
+            throw new EmailServiceException("email.properties could not be loaded");
+        }
+        try {
+            prop.load(inputStream);
+        } catch (Exception e) {
+            mailSession = null;
+            throw new EmailServiceException("Properties object could not be populated");
+        }
+
+        var auth = new javax.mail.Authenticator() {
+            @Override
+            public PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(prop.getProperty("mail.username"), prop.getProperty("mail.password"));
+            }
+        };
+
+        mailSession = Session.getInstance(prop, auth);
+        senderAddress=prop.getProperty("mail.sender_address");
+        senderName=prop.getProperty("mail.sender_name");
+    }
 
     public void send(String addresses, String topic, String textMessage) {
         new Thread(new EmailSender(addresses, topic, textMessage)).start();
+    }
+
+    public static class EmailServiceException extends RuntimeException {
+        private static final long serialVersionUID = -767386851177634591L;
+
+        public EmailServiceException(String msg) {
+            super(msg);
+        }
     }
 
     public class EmailSender implements Runnable {
@@ -59,12 +107,12 @@ public class EmailService implements Serializable {
         @Override
         public void run() {
             try {
-                Message message = new MimeMessage(session);
+                if (mailSession == null) prepareSession();
+                Message message = new MimeMessage(mailSession);
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(addresses));
                 message.setSubject(subject);
                 message.setText(msg);
-                message.setFrom(new InternetAddress(SENDER_EMAIL,"Put on the map"));
-
+                message.setFrom(new InternetAddress(senderAddress, senderName));
                 Transport.send(message);
             } catch (Exception e) {
                 log.log(Level.SEVERE, "Email could not be sent", e);
