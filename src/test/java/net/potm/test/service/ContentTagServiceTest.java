@@ -20,6 +20,7 @@ package net.potm.test.service;
 
 import net.potm.persistence.model.ContentTag;
 import net.potm.persistence.service.ContentTagService;
+import net.potm.security.SecurityUtils;
 import net.potm.test.util.TestUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -40,7 +41,7 @@ public class ContentTagServiceTest extends Arquillian {
 
     @Test
     public void persistenceTest(){
-        var myTagName=TestUtils.getRandomString();
+        var myTagName= SecurityUtils.generateRandomString(8);
         var tag=new ContentTag(myTagName);
         contentTagService.createTag(tag);
 

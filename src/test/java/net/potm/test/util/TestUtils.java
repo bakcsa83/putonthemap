@@ -18,6 +18,7 @@
 
 package net.potm.test.util;
 
+import net.potm.security.SecurityUtils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -25,7 +26,6 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 
 import java.io.File;
-import java.util.Random;
 
 public class TestUtils {
     /**
@@ -45,17 +45,8 @@ public class TestUtils {
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-    public static String getRandomString() {
-        int asciia = 97;
-        int asciiz = 122;
-        int length = 15;
-        Random random = new Random();
-        StringBuilder buffer = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            int randomLimitedInt = asciia + (int)
-                    (random.nextFloat() * (asciiz - asciia + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        return buffer.toString();
+    public static String getRandomEmail(){
+        return String.format("%s.%s@%s.net", SecurityUtils.generateRandomString(4),
+                SecurityUtils.generateRandomString(5),SecurityUtils.generateRandomString(5));
     }
 }

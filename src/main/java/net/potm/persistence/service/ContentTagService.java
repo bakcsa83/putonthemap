@@ -52,21 +52,22 @@ public class ContentTagService {
 
     @PersistenceContext
     EntityManager em;
-    public void createTag(ContentTag newTag){
+
+    public void createTag(ContentTag newTag) {
         em.persist(newTag);
     }
 
-    public void deleteTag(ContentTag tag){
-        var attached=em.find(ContentTag.class,tag.getId());
+    public void deleteTag(ContentTag tag) {
+        var attached = em.find(ContentTag.class, tag.getId());
         em.remove(attached);
     }
 
-    public List<ContentTag>getTagsByName(String name){
+    public List<ContentTag> getTagsByName(String name) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ContentTag> criteria = cb.createQuery(ContentTag.class);
         Root<ContentTag> tag = criteria.from(ContentTag.class);
 
-        criteria.select(tag).where(cb.like(tag.get(ContentTag_.NAME), name+"%"));
+        criteria.select(tag).where(cb.like(tag.get(ContentTag_.NAME), name + "%"));
 
         return em.createQuery(criteria).getResultList();
     }
