@@ -25,6 +25,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 
 import java.io.File;
+import java.util.Random;
 
 public class TestUtils {
     /**
@@ -40,6 +41,21 @@ public class TestUtils {
         return ShrinkWrap.create(WebArchive.class).addPackages(true, "net.potm")
                 .addAsLibraries(pomEquippedResolveStage.resolve("org.testng:testng").withTransitivity().asFile()) //Workaround
                 .addAsLibraries(files).addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsLibraries(files).addAsResource("META-INF/jboss-deployment-structure.xml", "META-INF/jboss-deployment-structure.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+
+    public static String getRandomString() {
+        int asciia = 97;
+        int asciiz = 122;
+        int length = 15;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomLimitedInt = asciia + (int)
+                    (random.nextFloat() * (asciiz - asciia + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
     }
 }
