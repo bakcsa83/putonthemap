@@ -115,14 +115,14 @@ public class PersonService {
         throw new UnsupportedOperationException("Method is not implemented");
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createPerson(Person newPerson) {
         newPerson.setCreatedOn(new Date());
         newPerson.setUpdatedOn(new Date());
         em.persist(newPerson);
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Person updatePerson(Person person) {
         person.setUpdatedOn(new Date());
         return em.merge(person);
@@ -133,9 +133,10 @@ public class PersonService {
         return em.find(Person.class, person.getId());
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deletePerson(Person person) {
-        em.remove(reloadPerson(person));
+        var attached=em.find(Person.class,person.getId());
+        em.remove(reloadPerson(attached));
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)

@@ -21,6 +21,7 @@ package net.potm.persistence.model;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -250,11 +251,35 @@ public class Person implements java.io.Serializable {
     public String toString() {
         return "Person{" +
                 "id=" + id +
+                ", version=" + version +
+                ", createdOn=" + createdOn +
                 ", email='" + email + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
+                ", pwdSalt='" + pwdSalt + '\'' +
+                ", updatedOn=" + updatedOn +
+                ", authCode='" + authCode + '\'' +
+                ", status=" + status +
+                ", activationEmailCount=" + activationEmailCount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) &&
+                Objects.equals(email, person.email) &&
+                Objects.equals(nickName, person.nickName) &&
+                Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, nickName, firstName, lastName);
     }
 }
