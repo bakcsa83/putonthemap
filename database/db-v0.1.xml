@@ -288,6 +288,7 @@ Welcome to www.putonthemap.net!
         <sql>
         INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
         </sql>
+        <rollback/>
     </changeSet>
 
     <changeSet id="create share_type" author="bakcsa">
@@ -307,6 +308,7 @@ Welcome to www.putonthemap.net!
             INSERT INTO public.share_type (id, name) VALUES (1,'FRIENDS');
             INSERT INTO public.share_type (id, name) VALUES (2,'PUBLIC');
         </sql>
+        <rollback/>
     </changeSet>
 
     <changeSet id="create content_tag" author="bakcsa">
@@ -334,7 +336,7 @@ Welcome to www.putonthemap.net!
             <column name="share_type" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="point" type="geometry(Point, 4326)">
+            <column name="location" type="geometry(Point, 4326)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -361,6 +363,9 @@ Welcome to www.putonthemap.net!
             </column>
             <column name="content_tag" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="content_base_content_tag_pkey"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
