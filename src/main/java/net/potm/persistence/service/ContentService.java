@@ -20,6 +20,7 @@ package net.potm.persistence.service;
 
 import net.potm.persistence.model.ContentBase;
 import net.potm.persistence.model.ContentBase_;
+import net.potm.persistence.model.ContentTag;
 import net.potm.persistence.model.Person;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -32,6 +33,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,12 +43,16 @@ public class ContentService implements Serializable {
     @PersistenceContext
     EntityManager em;
 
-    public void saveContent(ContentBase content) {
+    public void createContent(ContentBase content) {
         content.setCreatedOn(new Date());
         em.persist(content);
     }
 
-    private void buildContentSearchCriteria(final Criteria criteria, Person owner, Date startDate, Date endDate, Polygon polygon) {
+    public <T extends ContentBase> T updateContent(T content) {
+        return em.merge(content);
+    }
+
+    private void buildContentSearchCriteria(final Criteria criteria, Person owner, Date startDate, Date endDate, Polygon polygon, List<Long> tags) {
         if (owner != null) {
             criteria.add(Restrictions.eq(ContentBase_.OWNER, owner));
         }
@@ -62,24 +68,45 @@ public class ContentService implements Serializable {
         if (polygon != null) {
             criteria.add(SpatialRestrictions.within(ContentBase_.LOCATION, polygon));
         }
+
+
+        if (tags != null && tags.size() != 0) {
+            //TODO: This is not very nice.
+            criteria.createAlias(ContentBase_.TAGS, "tags_alias");
+            criteria.add(Restrictions.in("tags_alias.id", tags));
+        }
     }
 
 
-    public Long findContentCount(Person owner, Date startDate, Date endDate, Polygon polygon) {
+    public Long findContentCount(Person owner, Date startDate, Date endDate, Polygon polygon, List<ContentTag> tags) {
         Session session = em.unwrap(Session.class);
         //noinspection deprecation JPA is not compatible with SpatialRestrictions so a hibernate specific solution is needed
         Criteria criteria = session.createCriteria(ContentBase.class);
-        buildContentSearchCriteria(criteria, owner, startDate, endDate, polygon);
+        List<Long> tagIds = null;
+        if (tags != null) {
+            tagIds = new ArrayList<Long>();
+            for (ContentTag e : tags) {
+                tagIds.add(e.getId());
+            }
+        }
+        buildContentSearchCriteria(criteria, owner, startDate, endDate, polygon, tagIds);
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
 
     //JPA is not compatible with SpatialRestrictions so a hibernate specific solution is needed
-    public List<ContentBase> findContent(Person owner, Date startDate, Date endDate, Polygon polygon, int firstResult, int maxresults) {
+    public List<ContentBase> findContent(Person owner, Date startDate, Date endDate, Polygon polygon, List<ContentTag> tags, int firstResult, int maxresults) {
         Session session = em.unwrap(Session.class);
         //noinspection deprecation JPA is not compatible with SpatialRestrictions so a hibernate specific solution is needed
         Criteria criteria = session.createCriteria(ContentBase.class);
-        buildContentSearchCriteria(criteria, owner, startDate, endDate, polygon);
+        List<Long> tagIds = null;
+        if (tags != null) {
+            tagIds = new ArrayList<Long>();
+            for (ContentTag e : tags) {
+                tagIds.add(e.getId());
+            }
+        }
+        buildContentSearchCriteria(criteria, owner, startDate, endDate, polygon, tagIds);
         return criteria.setFirstResult(firstResult).setMaxResults(maxresults).list();
     }
 
@@ -87,13 +114,13 @@ public class ContentService implements Serializable {
         return em.find(ContentBase.class, id);
     }
 
-    public void deleteContent(ContentBase content){
-        var attached=em.find(ContentBase.class,content.getId());
+    public void deleteContent(ContentBase content) {
+        var attached = em.find(ContentBase.class, content.getId());
         em.remove(attached);
     }
 
-    public ContentBase fetchOwner(ContentBase content){
-        var attached=em.find(ContentBase.class,content.getId());
+    public ContentBase fetchOwner(ContentBase content) {
+        var attached = em.find(ContentBase.class, content.getId());
         attached.getOwner().getId();
         return attached;
     }

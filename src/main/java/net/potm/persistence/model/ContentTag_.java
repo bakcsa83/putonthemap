@@ -21,9 +21,8 @@ package net.potm.persistence.model;
 import javax.persistence.metamodel.SingularAttribute;
 
 public class ContentTag_ {
-    public static volatile SingularAttribute<AppProperty, Long> id;
-    public static volatile SingularAttribute<AppProperty, String> name;
-
     public static final String ID = "id";
     public static final String NAME = "name";
+    public static volatile SingularAttribute<ContentTag, Long> id;
+    public static volatile SingularAttribute<ContentTag, String> name;
 }

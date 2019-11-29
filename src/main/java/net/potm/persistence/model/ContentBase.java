@@ -23,6 +23,8 @@ import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "content_base", schema = "public")
@@ -33,6 +35,7 @@ public abstract class ContentBase {
     private Person owner;
     private ShareType shareType;
     private Point location;
+    private Set<ContentTag> tags = new HashSet<ContentTag>(0);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,12 +79,24 @@ public abstract class ContentBase {
     }
 
 
-    @Column(name = "location", columnDefinition="geometry(Point,4326)", nullable = false)
+    @Column(name = "location", columnDefinition = "geometry(Point,4326)", nullable = false)
     public Point getLocation() {
         return location;
     }
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "content_base_content_tag", schema = "public", joinColumns = {
+            @JoinColumn(name = "content_base", nullable = false, updatable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "content_tag", nullable = false, updatable = false)})
+    public Set<ContentTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<ContentTag> tags) {
+        this.tags = tags;
     }
 }
