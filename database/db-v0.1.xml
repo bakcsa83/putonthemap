@@ -221,7 +221,8 @@
             INSERT INTO public.text VALUES ('password_short', 'en', 'Minimum %d characters');
             INSERT INTO public.text VALUES ('save', 'en', 'Save');
             INSERT INTO public.text VALUES ('name_required', 'en', 'Name is required');
-            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed. (a-z,A-Z,0-9)');
+            INSERT INTO public.text VALUES ('invalid_characters', 'en', 'Only alphanumeric characters are allowed.
+            (a-z,A-Z,0-9)');
             INSERT INTO public.text VALUES ('nick_is_taken', 'en', 'Nick is already taken');
             INSERT INTO public.text VALUES ('email_is_taken', 'en', 'Email address is already taken');
             INSERT INTO public.text VALUES ('minimum_x_chars', 'en', 'Should be at least %d character(s) long.');
@@ -243,28 +244,30 @@
             www.putonthemap.net');
 
             INSERT INTO public.text VALUES ('registration_ok_msg', 'en', '
-Please Activate Your Account.
-Before you can login, you must active your account
-with the code sent to your email address.
-If you did not receive this email, please check
-your junk/spam folder.');
+            Please Activate Your Account.
+            Before you can login, you must active your account
+            with the code sent to your email address.
+            If you did not receive this email, please check
+            your junk/spam folder.');
 
-            INSERT INTO public.text VALUES ('account_activated', 'en', 'Account has been activated, now you can log in.');
+            INSERT INTO public.text VALUES ('account_activated', 'en', 'Account has been activated, now you can log
+            in.');
             INSERT INTO public.text VALUES ('account_activation_email_subject', 'en', 'Registration');
             INSERT INTO public.text VALUES ('wrong_username_or_pwd', 'en', 'Wrong username or password');
             INSERT INTO public.text VALUES ('login_failed', 'en', 'Login failed');
             INSERT INTO public.text VALUES ('login_ok', 'en', 'Login OK');
             INSERT INTO public.text VALUES ('welcome_content', 'en', '
-Welcome to www.putonthemap.net!
+            Welcome to www.putonthemap.net!
 
--upload your photos and tracks
--share them with friends
--make them public so that 
- others can enjoy them, too');
-			INSERT INTO public.text VALUES ('edit_profile', 'en', 'Edit profile');
-			INSERT INTO public.text VALUES ('profile_updated', 'en', 'Profile updated');
-			INSERT INTO public.text VALUES ('update_profile', 'en', 'Update profile');
-			INSERT INTO public.text VALUES ('log_out', 'en', 'Log out');
+            -upload your photos and tracks
+            -share them with friends
+            -make them public so that
+            others can enjoy them, too');
+            INSERT INTO public.text VALUES ('edit_profile', 'en', 'Edit profile');
+            INSERT INTO public.text VALUES ('profile_updated', 'en', 'Profile updated');
+            INSERT INTO public.text VALUES ('update_profile', 'en', 'Update profile');
+            INSERT INTO public.text VALUES ('log_out', 'en', 'Log out');
+            INSERT INTO public.text VALUES ('add_content', 'en', 'Add content');
         </sql>
 
         <rollback/>
@@ -284,9 +287,12 @@ Welcome to www.putonthemap.net!
         </createTable>
     </changeSet>
 
-    <changeSet id="load app properties" author="bakcsa">
+    <changeSet id="load app properties" author="bakcsa" runAlways="true">
+        <validCheckSum>ANY</validCheckSum>
         <sql>
-        INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
+            DELETE FROM public.app_property;
+            INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
+            INSERT INTO public.app_property( key,profile,value) VALUES ('CONTENT_FOLDER','TEST','c:/Temp/potm/content');
         </sql>
         <rollback/>
     </changeSet>
@@ -351,7 +357,8 @@ Welcome to www.putonthemap.net!
 
     <changeSet author="bakcsa" id="create content_base_share_type_fkey">
         <addForeignKeyConstraint baseColumnNames="share_type" baseTableName="content_base"
-                                 constraintName="content_base_share_type_fkey" deferrable="false" initiallyDeferred="false"
+                                 constraintName="content_base_share_type_fkey" deferrable="false"
+                                 initiallyDeferred="false"
                                  onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
                                  referencedTableName="share_type" validate="true"/>
     </changeSet>
@@ -372,14 +379,16 @@ Welcome to www.putonthemap.net!
 
     <changeSet author="bakcsa" id="create content_base_content_tag_content_base_fkey">
         <addForeignKeyConstraint baseColumnNames="content_base" baseTableName="content_base_content_tag"
-                                 constraintName="content_base_content_tag_content_base_fkey" deferrable="false" initiallyDeferred="false"
+                                 constraintName="content_base_content_tag_content_base_fkey" deferrable="false"
+                                 initiallyDeferred="false"
                                  onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
                                  referencedTableName="content_base" validate="true"/>
     </changeSet>
 
     <changeSet author="bakcsa" id="create content_base_content_tag_content_tag_fkey">
         <addForeignKeyConstraint baseColumnNames="content_tag" baseTableName="content_base_content_tag"
-                                 constraintName="content_base_content_tag_content_tag_fkey" deferrable="false" initiallyDeferred="false"
+                                 constraintName="content_base_content_tag_content_tag_fkey" deferrable="false"
+                                 initiallyDeferred="false"
                                  onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id"
                                  referencedTableName="content_tag" validate="true"/>
     </changeSet>
