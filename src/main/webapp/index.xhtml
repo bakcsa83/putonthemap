@@ -31,10 +31,11 @@
                 <h:form id="mainForm">
                     <p:growl id="mainGrowl" showDetail="true"/>
                     <p:tabView id="mainMenuTabView" style="min-height: 200px" dynamic="true">
-                        <p:tab title="#{txt.getText('welcome')}" rendered="#{!userSessionController.authenticated}">
-                            <pre>
-                                #{txt.getText('welcome_content')}
-                            </pre>
+                                                    <p:tab title="#{txt.getText('welcome')}" >
+                            <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                                <cc:content/>
+
+                            </p:panelGrid>
                         </p:tab>
                         <p:tab title="#{txt.getText('my_content')}" rendered="#{userSessionController.authenticated}">
 

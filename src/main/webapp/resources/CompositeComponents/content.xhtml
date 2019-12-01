@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~     (C) 2019 by Zoltan Bakcsa (zoltan@bakcsa.hu)
+  ~     This file is part of "putonthemap".
+  ~
+  ~     putonthemap is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     putonthemap is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with putonthemap.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+<composite:interface>
+
+</composite:interface>
+
+
+<composite:implementation>
+    <div class="ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+            <p:dataTable paginator="true" rows="10" paginatorPosition="bottom"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                <p:column headerText="Location"></p:column>
+                <p:column headerText="Type"></p:column>
+            </p:dataTable>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+            <p:button value="#{txt.getText('add_content')}" rendered="#{contentController.addButtonRendered}"/>
+            <p:button value="#{txt.getText('delete')}" rendered="#{contentController.deleteButtonRendered}"/>
+        </div>
+    </div>
+
+
+</composite:implementation>
+
+</html>
