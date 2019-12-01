@@ -79,7 +79,9 @@ public class UserManagementServiceImpl implements UserManagementService, Seriali
         var person = personService.getPersonByEmailOrNick(nickOrEmail);
         if (person == null) return null;
         var pwdHash = SecurityUtils.hashPassword(password, person.getPwdSalt());
-        return pwdHash.equals(person.getPassword()) ? person : null;
+        if( !pwdHash.equals(person.getPassword())) return null;
+        if (person.getStatus()!=Person.STATUS_ACTIVE) return null;
+        return person;
     }
 
     @Override
