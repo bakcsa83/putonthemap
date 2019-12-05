@@ -52,3 +52,12 @@ div.menu {
 .ui-panel .ui-panel-content {
   padding: 1px 1px;
 }
+
+.content-upload.ui-fileupload-content{
+  display: none;
+}
+.ui-fileupload-content .ui-progressbar {
+  width: 0px;
+  height: 0px;
+  margin: 0
+}

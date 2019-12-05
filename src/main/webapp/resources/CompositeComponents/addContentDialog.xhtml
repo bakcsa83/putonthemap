@@ -20,7 +20,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:composite="http://xmlns.jcp.org/jsf/composite">
 
@@ -29,158 +28,50 @@
 
 <composite:implementation>
 
-    <p:dialog id="addContentDialog" widgetVar="addContentDialog" dynamic="true"
+    <p:dialog id="addContentDialog" widgetVar="addContentDialog"
               header="#{txt.getText('add_content')}"
-              resizable="false" width="480">
+              resizable="false" width="700">
 
         <p:growl id="addContentGrowl"/>
-        <p:outputPanel id="dataPanel">
-            <p:panelGrid id="userProfilePanel" styleClass="ui-panelgrid-blank" rendered="#{!userProfileController.showFeedbackMsg}">
-                <p:row>
-                    <p:column>
-                        <p:outputLabel for="nickNameInput" value="#{txt.getText('nick_name')}:"/>
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="nickNameInput"
-                                     value="#{userProfileController.nickName}"
-                                     validator="#{userProfileController.isNickValid}"
-                                     required="true"
-                                     styleClass="flat">
 
-                            <p:ajax event="blur" process="nickNameInput"
-                                    update="nickNameInput nickNameInputMsg"/>
-                        </p:inputText>
+        <p:panelGrid id="infoGrid" style="width: 100%">
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Photo: "/>
+                </p:column>
+                <p:column>
 
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="2">
-                        <p:message id="nickNameInputMsg" for="nickNameInput" styleClass="flat" display="text"/>
-                    </p:column>
-                </p:row>
+                </p:column>
+                <p:column rowspan="3" style="min-width: 260">
+                    <p:graphicImage id="gimage" value="#{contentController.preview}" width="256" cache="false"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Coordinates: "/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel id="coordinates" value="#{contentController.coordinates}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column style="height: 100%" colspan="3">
 
-                <p:row>
-                    <p:column>
-                        <p:outputLabel for="firstNameInput" value="#{txt.getText('first_name')}:"/>
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="firstNameInput"
-                                     value="#{userProfileController.firstName}"
-                                     validator="#{userProfileController.isNameValid}"
-                                     required="true"
-                                     styleClass="flat">
-                            <p:ajax event="blur" process="firstNameInput"
-                                    update="firstNameInput firstNameInputMsg"/>
-                        </p:inputText>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="2">
-                        <p:message id="firstNameInputMsg" styleClass="flat" display="text" for="firstNameInput"/>
-                    </p:column>
-                </p:row>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="3">
 
-                <p:row>
-                    <p:column>
-                        <p:outputLabel for="lastNameInput" value="#{txt.getText('last_name')}:"/>
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="lastNameInput" value="#{userProfileController.lastName}"
-                                     validator="#{userProfileController.isNameValid}"
-                                     required="true"
-                                     styleClass="flat">
-                            <p:ajax event="blur" process="lastNameInput"
-                                    update="lastNameInput lastNameInputMsg"/>
-                        </p:inputText>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="2">
-                        <p:message id="lastNameInputMsg" styleClass="flat" display="text" for="lastNameInput"/>
-                    </p:column>
-                </p:row>
+                </p:column>
+            </p:row>
 
-                <p:row>
-                    <p:column>
-                        <p:outputLabel for="emailInput" value="#{txt.getText('email')}:"/>
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="emailInput"
-                                     value="#{userProfileController.email}"
-                                     validator="#{userProfileController.isEmailValid}"
-                                     required="true"
-                                     styleClass="flat">
-                            <p:ajax event="blur" process="emailInput"
-                                    update="emailInput emailInputMsg"/>
-                        </p:inputText>
-                    </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="2">
-                        <p:message id="emailInputMsg" styleClass="flat" display="text" for="emailInput"/>
-                    </p:column>
-                </p:row>
-
-                <h:panelGroup rendered="#{!userSessionController.authenticated}">
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="passwordInput" value="#{txt.getText('password')}:"/>
-                        </p:column>
-                        <p:column>
-                            <p:password id="passwordInput" value="#{userProfileController.password}"
-                                        feedback="true"
-                                        promptLabel="#{txt.getText('password_prompt')}"
-                                        weakLabel="#{txt.getText('password_weak')}"
-                                        goodLabel="#{txt.getText('password_good')}"
-                                        strongLabel="#{txt.getText('password_strong')}"
-                                        match="password2Input"
-                                        styleClass="flat"/>
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="password2Input" value="#{txt.getText('password_again')}:"/>
-                        </p:column>
-
-                        <p:column>
-                            <p:password id="password2Input" required="true" value="#{userProfileController.password}"
-                                        styleClass="flat"/>
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column/>
-                        <p:column>
-                            <p:message for="password2Input" display="text" styleClass="flat"/>
-                        </p:column>
-                    </p:row>
-                </h:panelGroup>
-                <p:row>
-                    <p:column>
-                        <p:commandButton
-                                id="saveUserProfileButton"
-                                value="#{userSessionController.authenticated ? txt.getText('save') : txt.getText('sign_up')}"
-                                action="#{userProfileController.saveUser}"
-                                update="dataPanel
-                                mainForm"/>
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
-            <p:outputPanel id="feedbackPanel" rendered="#{userProfileController.showFeedbackMsg}">
-                <pre>
-                    <h:outputText value="#{userSessionController.authenticated ? txt.getText('profile_updated') : txt.getText('registration_ok_msg')}"/>
-                </pre>
-            </p:outputPanel>
-
-
-            <p:blockUI block="userProfilePanel" trigger="saveUserProfileButton">
-                <h:outputLabel value="#{txt.getText('processing')}"/>
-                <br/>
-                <p:progressBar id="progressBarIndeterminate" style="height:6px"
-                               mode="indeterminate"/>
-            </p:blockUI>
+        </p:panelGrid>
+        <p:outputPanel id="ctrlPanel">
+            <p:fileUpload previewWidth="25" fileUploadListener="#{contentController.handleFileUpload}"
+                          value="#{contentController.uploadedFile}" auto="true" sizeLimit="10485760"
+                          allowTypes="/(\.|\/)(jpe?g)$/" update="infoGrid ctrlPanel"/>
         </p:outputPanel>
+
     </p:dialog>
 </composite:implementation>
 

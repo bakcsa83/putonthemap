@@ -31,10 +31,9 @@
                 <h:form id="mainForm">
                     <p:growl id="mainGrowl" showDetail="true"/>
                     <p:tabView id="mainMenuTabView" style="min-height: 200px" dynamic="true">
-                                                    <p:tab title="#{txt.getText('welcome')}" >
+                        <p:tab title="#{txt.getText('welcome')}">
                             <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                                 <cc:content/>
-
                             </p:panelGrid>
                         </p:tab>
                         <p:tab title="#{txt.getText('my_content')}" rendered="#{userSessionController.authenticated}">
@@ -50,10 +49,11 @@
                                 <p:outputLabel for="passwordInput" value="#{txt.getText('password')}:"/>
                                 <p:password id="passwordInput" value="#{userSessionController.password}"/>
 
-                                <p:commandLink value="#{txt.getText('sign_up')}" onclick="PF('userProfileDialog').show()"/>
+                                <p:commandLink value="#{txt.getText('sign_up')}"
+                                               onclick="PF('userProfileDialog').show()"/>
                                 <p:commandButton value="#{txt.getText('login')}"
                                                  action="#{userSessionController.login}"
-                                                 update="mainMenuTabView mainForm:mainGrowl"/>
+                                                 update="@form"/>
                             </p:panelGrid>
                             <p:panelGrid styleClass="ui-panelgrid-blank" columns="1"
                                          rendered="#{userSessionController.authenticated}">
@@ -67,6 +67,22 @@
                     </p:tabView>
                 </h:form>
             </div>
+            <div class="ui-g-12 ui-g-nopad">
+                <h:form id="uploadForm">
+                    <p:panel id="toggleable" header="Upload content" toggleable="true" closable="false"
+                             toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+                        <p:graphicImage id="gimage" value="#{contentController.preview}" width="256"
+                                        cache="false"/>
+
+                        <p:outputPanel id="ctrlPanel">
+                            <p:outputLabel id="c1" value="#{mapController.newContentLong}"/>
+                            <p:fileUpload previewWidth="25" fileUploadListener="#{contentController.handleFileUpload}"
+                                          value="#{contentController.uploadedFile}" auto="true" sizeLimit="10485760"
+                                          allowTypes="/(\.|\/)(jpe?g)$/" update="gimage ctrlPanel"/>
+                        </p:outputPanel>
+                    </p:panel>
+                </h:form>
+            </div>
         </div>
     </ui:define>
 
@@ -74,6 +90,10 @@
         <h:form id="userProfileDialogForm">
             <cc:userProfileDialog id="userProfileDialogComp"/>
         </h:form>
+        <h:form id="addContentDialogForm">
+            <cc:addContentDialog/>
+        </h:form>
+
     </ui:define>
 </ui:composition>
 </html>

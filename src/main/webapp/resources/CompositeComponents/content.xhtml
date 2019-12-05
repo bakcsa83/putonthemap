@@ -38,8 +38,9 @@
             </p:dataTable>
         </div>
         <div class="ui-g-12 ui-g-nopad">
-            <p:button value="#{txt.getText('add_content')}" rendered="#{contentController.addButtonRendered}"/>
-            <p:button value="#{txt.getText('delete')}" rendered="#{contentController.deleteButtonRendered}"/>
+            <p:commandButton value="#{txt.getText('add_content')}" rendered="#{contentController.addButtonRendered}" update="addContentDialogForm"
+                      oncomplete="PF('addContentDialog').show()"/>
+            <p:commandButton value="#{txt.getText('delete')}" rendered="#{contentController.deleteButtonRendered}"/>
         </div>
     </div>
 

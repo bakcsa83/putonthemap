@@ -18,17 +18,33 @@
 
 package net.potm.web.jsf.content;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.lang.GeoLocation;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.GpsDirectory;
 import net.potm.persistence.model.ContentBase;
 import net.potm.persistence.service.ContentService;
 import net.potm.web.jsf.user_session.UserSessionController;
+import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.util.logging.Logger;
+import javax.inject.Named;
+import java.io.IOException;
+import java.io.Serializable;
 
-@Model
-public class ContentController {
+@Named
+@RequestScoped
+public class ContentController implements Serializable {
 
     @Inject
     UserSessionController usc;
@@ -36,20 +52,25 @@ public class ContentController {
     @Inject
     ContentService contentService;
 
-    @Inject
-    Logger log;
 
     ContentBase selectedContent;
     Boolean deleteButtonRendered;
     Boolean addButtonRendered;
+    String coordinates;
+
+    UploadedFile uploadedFile;
+    StreamedContent preview;
 
     @PostConstruct
-    public void init(){
-        log.info("Init.");
-        updateUI();
+    public void init() {
     }
 
-    private void updateUI(){
+    @PreDestroy
+    public void destruct() {
+
+    }
+
+    public void updateUI() {
         deleteButtonRendered = false;
         addButtonRendered = false;
 
@@ -66,6 +87,37 @@ public class ContentController {
 
     public void selectionChanged() {
         updateUI();
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException, ImageProcessingException {
+//        FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+        System.out.println("upload ok. " + event.getFile().getFileName());
+        preview = new DefaultStreamedContent(event.getFile().getInputstream(), "image/jpeg");
+        Metadata metadata = ImageMetadataReader.readMetadata(event.getFile().getInputstream());
+
+
+        for (Directory directory : metadata.getDirectories()) {
+            System.out.println("Dir: " + directory);
+            for (Tag tag : directory.getTags()) {
+                System.out.println(tag);
+            }
+        }
+
+        var gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+        Double lat = 0.0;
+        Double lng = 0.0;
+        if (gpsDirectory != null) {
+            GeoLocation location = gpsDirectory.getGeoLocation();
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+        }
+
+
+        coordinates = "Lat: " + lat + "; Long: " + lng;
+        System.out.println("Coordinated: " + coordinates);
+
+        PrimeFaces.current().executeScript(String.format("showMarkerLayer(%s,%s);", lat.toString(), lng.toString()));
     }
 
     public ContentBase getSelectedContent() {
@@ -90,5 +142,29 @@ public class ContentController {
 
     public void setAddButtonRendered(Boolean addButtonRendered) {
         this.addButtonRendered = addButtonRendered;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+
+    public StreamedContent getPreview() throws IOException {
+        return preview;
+    }
+
+    public void setPreview(StreamedContent preview) {
+        this.preview = preview;
+    }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 }
