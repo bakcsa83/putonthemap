@@ -20,6 +20,9 @@ package net.potm.business.api;
 
 import net.potm.persistence.model.Person;
 
+import javax.ejb.Local;
+
+@Local
 public interface UserManagementService {
 
     Person signUp(String email, String nickName, String firstName, String lastName, String password);

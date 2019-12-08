@@ -40,13 +40,23 @@ import net.potm.persistence.model.ContentBase;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.model.PhotoContent;
 
+import javax.ejb.Local;
 import java.io.InputStream;
 
+/**
+ * @author zoltan@bakcsa.hu
+ */
+@Local
 public interface ContentManagerService {
 
+    /**
+     * Create a new {@link PhotoContent} and save the stream to disk.
+     * @param user owner of the content
+     * @param stream data stream
+     * @return PhotoContent
+     */
     PhotoContent saveTempPhoto(Person user, InputStream stream);
     ContentBase updateContent(Person user,ContentBase content);
     void deleteContent(ContentBase contentBase);
-
 
 }
