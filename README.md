@@ -11,9 +11,9 @@ A web service where users can upload and geo-tag
 <!--ts-->
 * [Purpose of the project](#purpose-of-the-project)
 * [Environments](#environments)
-    * [Runtime](##runtime)
-    * [Development](##development)
-* [Developers guide](#developers-guid)
+    * [Runtime](#runtime)
+    * [Development](#development)
+* [Developers guide](#developers-guide)
 <!--te-->
 # Purpose of the project
 The purpose of the project is to demonstrate the power of Jakarta EE 8 (and JSF) and produce
@@ -26,7 +26,7 @@ something that might be useful.
 * SQL: Postgresql 10 with PostGIS 2.4.3
 * Application server: Wildfly 18
 
-## Developemnt
+## Development
 * OS: Windows 10
 * Java: OpenJDK 12
 * SQL: Postgresql 10 with PostGIS 2.4.3 (running in a virtual machine)
