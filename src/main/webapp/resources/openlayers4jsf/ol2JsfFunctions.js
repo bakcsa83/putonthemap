@@ -18,7 +18,7 @@
 
 const defaultLat=46.585884;
 const defaultLong=16.846554;
-var newContentMode=false;
+let newContentMode=false;
 
 const map = new ol.Map({
     target: 'map',
@@ -28,7 +28,7 @@ const map = new ol.Map({
         })
     ],
     view: new ol.View({
-        center: ol.proj.fromLonLat([16.846554,46.585884]),
+        center: ol.proj.fromLonLat([defaultLong,defaultLat]),
         zoom: 10
     })
 });
@@ -40,24 +40,24 @@ const newContentMarkerStyle = new ol.style.Style({
     })
 });
 
-var marker = new ol.Feature({
+const marker = new ol.Feature({
     geometry: new ol.geom.Point(
-        ol.proj.fromLonLat([16.846554,46.585884])
+        ol.proj.fromLonLat([defaultLong,defaultLat])
     ),
 });
 
-var vectorSource = new ol.source.Vector({
+const vectorSource = new ol.source.Vector({
     features: [marker]
 });
 
-var markerVectorLayer = new ol.layer.Vector({
+const markerVectorLayer = new ol.layer.Vector({
     source: vectorSource,
     style: [newContentMarkerStyle]
 });
 map.addLayer(markerVectorLayer);
 
 
-var modify = new ol.interaction.Modify({
+let modify = new ol.interaction.Modify({
     features: new ol.Collection([marker])
 });
 
@@ -70,8 +70,6 @@ map.addInteraction(modify);
 map.on("moveend", function(e){
     reportMapViewState();
 });
-
-
 
 // Restore map if centerLat/Lon is not 0.0
 if(mapState.centerLat!=0.0 && mapState.centerLon!='0.0'){
