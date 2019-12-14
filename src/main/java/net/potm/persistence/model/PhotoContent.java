@@ -18,6 +18,8 @@
 
 package net.potm.persistence.model;
 
+import net.potm.geo.GeoTools;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -27,13 +29,25 @@ import javax.persistence.Table;
 public class PhotoContent extends ContentBase {
     private String directory;
     private String file;
+    private Boolean temporary;
+
 
     public PhotoContent() {
     }
 
+    /**
+     * Constructor for temporary photo
+     * @param directory
+     * @param file
+     */
+
+
     public PhotoContent(String directory, String file) {
         this.directory = directory;
         this.file = file;
+        this.setShareType(ShareType.GET_PRIVATE());
+        this.setLocation(GeoTools.createPoint(0.0,0.0));
+        this.temporary=true;
     }
 
     @Column(name = "dir", nullable = false, length = 36)
@@ -52,5 +66,14 @@ public class PhotoContent extends ContentBase {
 
     public void setFile(String file) {
         this.file = file;
+    }
+
+    @Column(name = "temporary", nullable = false)
+    public Boolean getTemporary() {
+        return temporary;
+    }
+
+    public void setTemporary(Boolean temporary) {
+        this.temporary = temporary;
     }
 }

@@ -293,6 +293,7 @@
             DELETE FROM public.app_property;
             INSERT INTO public.app_property( key,profile,value) VALUES ('ACTIVE_PROFILE','GLOBAL','TEST');
             INSERT INTO public.app_property( key,profile,value) VALUES ('CONTENT_FOLDER','TEST','c:/Temp/potm/content');
+            INSERT INTO public.app_property( key,profile,value) VALUES ('MAX_FILES_PER_FOLDER','GLOBAL','1500');
         </sql>
         <rollback/>
     </changeSet>
@@ -402,6 +403,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="file" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="temporary" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
         </createTable>

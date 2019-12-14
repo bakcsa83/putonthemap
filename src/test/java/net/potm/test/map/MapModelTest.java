@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 @Test
-public class MapModeltest {
+public class MapModelTest {
 
     public void ModelTest() throws IOException {
         MapStateModel m=new MapStateModel();

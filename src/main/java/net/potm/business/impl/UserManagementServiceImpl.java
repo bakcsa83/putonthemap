@@ -25,10 +25,9 @@ import net.potm.security.SecurityUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.io.Serializable;
 
 @Stateless
-public class UserManagementServiceImpl implements UserManagementService, Serializable {
+public class UserManagementServiceImpl implements UserManagementService {
     private static final long serialVersionUID = 1669918868770971917L;
 
     @Inject

@@ -22,6 +22,7 @@ import net.potm.business.api.UserManagementService;
 import net.potm.misc.TextController;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.service.ContentService;
+import net.potm.web.jsf.content.ContentController;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -29,7 +30,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -53,8 +53,11 @@ public class UserSessionController implements Serializable {
     @Inject
     ContentService contentService;
 
+    @Inject
+    ContentController contentController;
+
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         log.info("UserSessionController has been initialized. "+this.hashCode());
     }
 
@@ -83,6 +86,7 @@ public class UserSessionController implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,textController.getText("login_ok"),
                             textController.getText("welcome")+" "+user.getNickName()));
             authenticated=true;
+            contentController.updateUI();
         }
 
         return "";

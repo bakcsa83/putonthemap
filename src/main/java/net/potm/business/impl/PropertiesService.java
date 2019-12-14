@@ -33,7 +33,8 @@ public class PropertiesService {
 
 	// Property keys
 	public static final String ACTIVE_PROFILE = "ACTIVE_PROFILE";
-
+	public static final String CONTENT_DIR = "CONTENT_DIR";
+	public static final String MAX_FILES_PER_FOLDER = "MAX_FILES_PER_FOLDER";
 	public static final String DELETED_USER_ID = "DELETED_USER_ID";
 	public static final String SYSTEM_USER_ID = "SYSTEM_USER_ID";
 

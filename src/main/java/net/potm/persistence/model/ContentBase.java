@@ -37,6 +37,7 @@ public abstract class ContentBase {
     private Point location;
     private Set<ContentTag> tags = new HashSet<ContentTag>(0);
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)

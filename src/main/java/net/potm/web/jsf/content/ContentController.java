@@ -36,14 +36,14 @@ import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class ContentController implements Serializable {
 
     @Inject
@@ -93,6 +93,7 @@ public class ContentController implements Serializable {
 //        FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
         System.out.println("upload ok. " + event.getFile().getFileName());
+
         preview = new DefaultStreamedContent(event.getFile().getInputstream(), "image/jpeg");
         Metadata metadata = ImageMetadataReader.readMetadata(event.getFile().getInputstream());
 
@@ -153,7 +154,8 @@ public class ContentController implements Serializable {
     }
 
     public StreamedContent getPreview() throws IOException {
-        return preview;
+        if(uploadedFile==null) return null;
+        return new DefaultStreamedContent(uploadedFile.getInputstream(), "image/jpeg");
     }
 
     public void setPreview(StreamedContent preview) {

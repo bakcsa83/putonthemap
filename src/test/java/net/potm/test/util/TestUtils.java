@@ -81,7 +81,7 @@ public class TestUtils {
         photo.setDirectory(UUID.randomUUID().toString());
         photo.setLocation(getTestPoint1());
         photo.setShareType(ShareType.GET_PRIVATE());
-
+        photo.setTemporary(false);
         return photo;
     }
 
@@ -91,7 +91,7 @@ public class TestUtils {
         photo.setDirectory(UUID.randomUUID().toString());
         photo.setLocation(getTestPoint2());
         photo.setShareType(ShareType.GET_PRIVATE());
-
+        photo.setTemporary(false);
         return photo;
     }
 
