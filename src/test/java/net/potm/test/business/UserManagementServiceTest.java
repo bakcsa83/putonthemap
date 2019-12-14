@@ -19,8 +19,8 @@
 package net.potm.test.business;
 
 import net.potm.business.api.UserManagementService;
-import net.potm.security.SecurityUtils;
 import net.potm.test.util.TestUtils;
+import net.potm.util.security.SecurityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;

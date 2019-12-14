@@ -20,8 +20,8 @@ package net.potm.test.service;
 
 import net.potm.persistence.model.Person;
 import net.potm.persistence.service.PersonService;
-import net.potm.security.SecurityUtils;
 import net.potm.test.util.TestUtils;
+import net.potm.util.security.SecurityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;

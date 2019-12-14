@@ -21,7 +21,7 @@ package net.potm.business.impl;
 import net.potm.business.api.UserManagementService;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.service.PersonService;
-import net.potm.security.SecurityUtils;
+import net.potm.util.security.SecurityUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
