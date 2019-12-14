@@ -18,11 +18,11 @@
 
 package net.potm.test.util;
 
-import net.potm.geo.GeoTools;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.model.PhotoContent;
 import net.potm.persistence.model.ShareType;
 import net.potm.security.SecurityUtils;
+import net.potm.util.geo.GeoTools;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

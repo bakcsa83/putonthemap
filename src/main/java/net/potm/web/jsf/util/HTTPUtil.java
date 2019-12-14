@@ -1,4 +1,4 @@
-package net.potm.web.jsf.helper;
+package net.potm.web.jsf.util;
 
 import javax.servlet.http.HttpServletRequest;
 

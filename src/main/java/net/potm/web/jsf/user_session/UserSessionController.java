@@ -19,10 +19,10 @@
 package net.potm.web.jsf.user_session;
 
 import net.potm.business.api.UserManagementService;
-import net.potm.misc.TextController;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.service.ContentService;
 import net.potm.web.jsf.content.ContentController;
+import net.potm.web.jsf.util.TextController;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;

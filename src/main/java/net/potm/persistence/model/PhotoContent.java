@@ -18,7 +18,7 @@
 
 package net.potm.persistence.model;
 
-import net.potm.geo.GeoTools;
+import net.potm.util.geo.GeoTools;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

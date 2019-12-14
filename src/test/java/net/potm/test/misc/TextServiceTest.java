@@ -18,7 +18,7 @@
 
 package net.potm.test.misc;
 
-import net.potm.misc.TextManager;
+import net.potm.business.util.TextService;
 import net.potm.test.util.TestUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -28,21 +28,21 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
-public class TextManagerTest extends Arquillian {
+public class TextServiceTest extends Arquillian {
     @Deployment
     public static Archive<?> createTestArchive() {
         return TestUtils.prepareDeployment();
     }
 
     @Inject
-    TextManager textManager;
+    TextService textService;
 
     @Test
     public void languageServiceTest(){
-        var txt= textManager.getText("login","en");
+        var txt= textService.getText("login","en");
         Assert.assertEquals(txt,"Login");
 
-        txt= textManager.getText("7slkjdfxdkyf","en");
-        Assert.assertEquals(txt, TextManager.DEFAULT_STRING);
+        txt= textService.getText("7slkjdfxdkyf","en");
+        Assert.assertEquals(txt, TextService.DEFAULT_STRING);
     }
 }

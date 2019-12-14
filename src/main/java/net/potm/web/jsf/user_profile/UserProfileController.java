@@ -19,11 +19,11 @@
 package net.potm.web.jsf.user_profile;
 
 import net.potm.business.api.UserManagementService;
-import net.potm.misc.EmailService;
-import net.potm.misc.TextController;
+import net.potm.business.util.EmailService;
 import net.potm.persistence.model.Person;
-import net.potm.web.jsf.helper.HTTPUtil;
 import net.potm.web.jsf.user_session.UserSessionController;
+import net.potm.web.jsf.util.HTTPUtil;
+import net.potm.web.jsf.util.TextController;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -37,6 +37,8 @@ import java.util.logging.Logger;
 
 @Model
 public class UserProfileController {
+    static Logger log=Logger.getLogger(UserProfileController.class.getName());
+
     private static final int PASSWD_MIN_LEN = 6;
     private static final int NICK_MIN_LEN = 4;
     @Inject
@@ -50,9 +52,6 @@ public class UserProfileController {
 
     @Inject
     EmailService emailService;
-
-    @Inject
-    Logger log;
 
 
 

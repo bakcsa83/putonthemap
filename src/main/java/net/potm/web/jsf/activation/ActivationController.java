@@ -1,8 +1,8 @@
 package net.potm.web.jsf.activation;
 
 import net.potm.business.api.UserManagementService;
-import net.potm.misc.TextController;
-import net.potm.web.jsf.helper.HTTPUtil;
+import net.potm.web.jsf.util.HTTPUtil;
+import net.potm.web.jsf.util.TextController;
 
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 @Model
 public class ActivationController {
+    static Logger log=Logger.getLogger(ActivationController.class.getName());
     String activationEmail;
     String activationCode;
 
@@ -23,9 +24,6 @@ public class ActivationController {
 
     @Inject
     TextController textCtrl;
-
-    @Inject
-    Logger log;
 
     private void redirectToIndex() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -83,14 +81,6 @@ public class ActivationController {
 
     public void setActivationText(String activationText) {
         this.activationText = activationText;
-    }
-
-    public Logger getLog() {
-        return log;
-    }
-
-    public void setLog(Logger log) {
-        this.log = log;
     }
 
 }

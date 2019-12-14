@@ -19,7 +19,7 @@
 package net.potm.business.impl;
 
 import net.potm.business.api.ContentManagerService;
-import net.potm.misc.ContentFolderService;
+import net.potm.business.util.ContentFolderService;
 import net.potm.persistence.model.ContentBase;
 import net.potm.persistence.model.Person;
 import net.potm.persistence.model.PhotoContent;

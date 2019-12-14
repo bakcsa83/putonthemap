@@ -16,11 +16,28 @@
  *     along with putonthemap.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.potm.misc;
+/*
+ *     (C) 2019 by Zoltan Bakcsa (zoltan@bakcsa.hu)
+ *     This file is part of "putonthemap".
+ *
+ *     putonthemap is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     putonthemap is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with putonthemap.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package net.potm.business.util;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -28,18 +45,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
-public class EmailService implements Serializable {
-    private static final long serialVersionUID = -2630183875163233638L;
+public class EmailService {
 
-
-    @Inject
-    Logger log;
+    static Logger log=Logger.getLogger(TextService.class.getName());
 
     private Session mailSession;
     private String senderAddress;

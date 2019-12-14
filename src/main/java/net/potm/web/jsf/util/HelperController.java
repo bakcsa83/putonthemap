@@ -16,7 +16,7 @@
  *     along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.potm.web.jsf.helper;
+package net.potm.web.jsf.util;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;

@@ -18,7 +18,7 @@
 
 package net.potm.persistence.service;
 
-import net.potm.misc.ContentFolderService;
+import net.potm.business.util.ContentFolderService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

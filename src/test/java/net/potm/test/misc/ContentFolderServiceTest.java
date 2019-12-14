@@ -18,7 +18,7 @@
 
 package net.potm.test.misc;
 
-import net.potm.misc.ContentFolderService;
+import net.potm.business.util.ContentFolderService;
 import net.potm.test.util.TestUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
